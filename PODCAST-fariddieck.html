@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Podcast | Relatos y Reflexiones</title>
+    <style>
+        /* Gradiente de fondo */
+        body {
+            margin: 0;
+            font-family: 'Spotify Circular', sans-serif;
+            background: linear-gradient(to bottom, #1c432d, #121212);
+            color: white;
+            padding: 20px;
+    margin-left: -100px;  /* Mueve a la izquierda */
+        }
+
+        /* Contenedor principal alineado a la derecha */
+        .podcast-container {
+            max-width: 900px;
+            margin: 0 auto 0 20%;
+margin-left: 50px; 
+        }
+
+        /* Portada del podcast */
+        .podcast-header {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .podcast-header img {
+            border-radius: 10px;
+            width: 150px;
+            height: 150px;
+            margin-right: 20px;
+        }
+
+        /* Título y descripción del podcast */
+        .podcast-info h1 {
+            font-size: 2.5em;
+            margin: 0;
+        }
+
+        .podcast-info p {
+            font-size: 1.2em;
+            margin: 20px 0 0 0;
+            color: #b3b3b3;
+        }
+
+        /* Botones de interacción */
+        .podcast-buttons {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .podcast-buttons button {
+            background-color: #1db954;
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-size: 1em;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-right: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .podcast-buttons button:hover {
+            background-color: #1ed760;
+        }
+
+        /* Lista de episodios */
+        .episode-list {
+            margin-top: 30px;
+        }
+
+        .episode-item {
+            background-color: rgba(0, 0, 0, 0.5);
+
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .episode-item:hover {
+            background-color: #282828;
+        }
+
+        /* Imagen del episodio */
+        .episode-image {
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .episode-image img {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+        }
+
+        /* Información del episodio */
+        .episode-info {
+            flex: 1;
+        }
+
+        .episode-info h3 {
+            font-size: 1.5em;
+            margin: 0;
+        }
+
+        .episode-info p {
+            color: #b3b3b3;
+            margin: 10px 0 0 0;
+            font-size: 1em;
+        }
+
+        .episode-info span {
+            display: block;
+            margin-top: 10px;
+            color: #b3b3b3;
+            font-size: 0.9em;
+        }
+
+        /* Botón de reproducción */
+        .episode-play {
+            background-color: #1db954;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .episode-play:hover {
+            background-color: #1ed760;
+        }
+
+        .episode-play svg {
+            fill: white;
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Cabecera de episodios */
+        .episodes-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .episodes-header h2 {
+            margin: 0;
+            font-size: 1.5em;
+        }
+
+        .episodes-header select {
+            background-color: #121212;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+
+        .episodes-header select:focus {
+            outline: none;
+        }
+
+        /* Reproductor inferior */
+        .audio-player {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #181818;
+            color: white;
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease-in-out;
+            transform: translateY(100%);
+   margin-left: 360px;  /* Mueve a la izquierda */
+  
+
+        }
+
+        .audio-player.show {
+            transform: translateY(0);
+        }
+
+        .audio-player img {
+            width: 60px;
+            height: 60px;
+            border-radius: 5px;
+            margin-right: 20px;
+        }
+
+        .audio-info {
+            flex: 1;
+  
+        }
+
+        .audio-info h3 {
+            margin: 0;
+            font-size: 1.2em;
+        }
+
+        .audio-info p {
+            margin: 0px -50px 0px 0;
+
+            padding: 10px -10px;
+            color: #b3b3b3;
+            font-size: 0.9em;
+        }
+
+        .audio-controls audio {
+            width: 150px;
+            height: 30px;
+padding: 10px 440px;
+margin-left: -40px; 
+
+        }
+
+
+       .sidebar {
+            width: 360px;
+            height: 100vh;
+            background-color: #000;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+position: fixed;
+   margin-left: 80px;  /* Mueve a la izquierda */
+top: 0px;
+        }
+        
+        .upper-section, .lower-section {
+            background-color: #181818;
+            border-radius: 10px;
+            padding: 15px;
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 13px 0;
+            font-size: 14px;
+            cursor: pointer;
+            color: #B3B3B3;
+            transition: color 0.3s ease;
+    width: 250px;
+    height: 50px; 
+        }
+        
+        .menu-item img {
+            width: 50px;
+            height: 50px;
+            border-radius: 4px;
+            margin-right: 15px;
+        }
+
+        .menu-item:hover {
+            color: white;
+        }
+
+        .menu-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            margin: 20px 0 10px;
+            color: #B3B3B3;
+        }
+
+        .search, .library {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            font-size: 16px;
+            color: white;
+        }
+
+        .library .options {
+            display: flex;
+            align-items: center;
+        }
+
+        .library .options button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+width: 100px;
+        }
+
+        .tab {
+            padding: 6px 12px;
+            background-color: #282828;
+            border-radius: 16px;
+            font-size: 12px;
+            cursor: pointer;
+            color: #B3B3B3;
+            transition: background-color 0.3s ease;
+        }
+
+        .tab:hover {
+            background-color: #3c3c3c;
+            color: white;
+        }
+
+          .menusss-a {
+            display: flex;
+            align-items: center;
+            padding: 13px 0;
+            font-size: 14px;
+            cursor: pointer;
+            color: #B3B3B3;
+            transition: color 0.3s ease;
+    width: 250px;
+    height: 50px; 
+        }      
+.menusss-a img {
+            width: 50px;
+            height: 50px;
+            border-radius: 40px;
+            margin-right: 15px;
+        }
+        .menusss-a:hover {
+            color: white;
+        }
+
+        .menusss-a-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            margin: 20px 0 10px;
+            color: #B3B3B3;
+        }
+
+
+
+
+
+       /* Contenedor principal para correr todos los elementos hacia la derecha */
+        .main-container {
+            margin-left: 420px; /* Deja un espacio de 360px en la izquierda */
+margin-top: -20px;
+}
+
+        .charcoal-bar {
+            display: flex;
+            align-items: center;
+            padding: 20px 30px; /* Aumenta el espacio interno */
+            gap: 20px; /* Espacio entre los elementos dentro de la barra superior */
+        }
+
+        .black-arrows {
+            display: flex;
+            gap: 20px; /* Espacio entre las flechas */
+        }
+
+        .black-arrows button {
+            background-color: #000; /* Fondo negro */
+            border: none;
+            color: #fff;
+            padding: 15px; /* Aumenta el tamaño de los botones */
+            border-radius: 50%;
+            cursor: pointer;
+
+        }
+
+        .gray-search {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            background-color: #333; /* Fondo gris oscuro */
+            padding: 15px 20px; /* Aumenta el espacio interno en la barra de búsqueda */
+            border-radius: 25px;
+            margin-right: 10px; /* Espacio a la derecha de la barra de búsqueda */
+width: 530px
+
+
+        }
+
+        .gray-search input {
+            background-color: transparent;
+            border: none;
+            color: #fff;
+            flex: 1;
+            padding-left: 20px; /* Aumenta el espacio interno a la izquierda del input */
+            outline: none;
+            font-size: 16px;
+        }
+
+        .gray-search input::placeholder {
+            color: #ccc; /* Color gris claro */
+        }
+
+        .gray-search button {
+            background-color: transparent;
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .icon-bar {
+            display: flex;
+            align-items: center;
+            gap: 40px; /* Aumenta el espacio entre los iconos */
+margin-left: 50px;
+
+        }
+
+        .icon-bar a {
+            text-decoration: none;
+            color: #fff;
+            
+            padding: 15px 20px; /* Aumenta el espacio interno en los iconos */
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 60px;
+
+ 
+        }
+
+        .icon-bar .white-profile {
+            background-image: url('https://lh3.googleusercontent.com/a/ACg8ocIVXuF5nwG5vcM6_x2EtevDabyzo8WL7uqxfMORQ2yCH0UQBFaN=s96-c-rg-br100'); /* Cambia esta URL por la de tu imagen */
+            background-size: cover;
+            width: 15px; /* Aumenta el tamaño del icono de perfil */
+            height: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+margin-left: -10px;
+
+    </style>
+</head>
+
+<body>
+   <div class="sidebar">
+        <div class="upper-section">
+            <div class="search">
+      <a href="BUSQUEDA-ARTISTA.html" class="search">Inicio</a>
+            </div>
+     <a href="BUSCAR.html" class="search">Buscar</a>
+        </div>
+        
+        <div class="lower-section">
+            <div class="library">
+                <span>Tu biblioteca</span>
+                <div class="options">
+                    <button>+</button>
+                    <button>→</button>
+                </div>
+            </div>
+            <div class="tabs">
+                <div class="tab">Playlists</div>
+                <div class="tab">Artistas</div>
+                <div class="tab">Álbumes</div>
+            </div>
+            <div class="menu-title">Recientes</div>
+            <div class="menu-item">
+                <img src="https://marcelolanegra.github.io/proyecto-spotifu/images/liked-songs-640.png" alt="Tus me gusta">
+                <div>
+                    <strong>Tus me gusta</strong><br>
+                    <span>Playlist • 23 canciones</span>
+                </div>
+            </div>
+            <div class="menu-item">
+                <img src="file:///C:/Users/JULIANQUINTERO/Downloads/Dise%C3%B1o%20sin%20t%C3%ADtulo%20(8).png" alt="Tus episodios">
+                <div>
+                    <strong>Tus episodios</strong><br>
+                    <span>Episodios guardados y descargados</span>
+                </div>
+            </div>
+            <div class="menusss-a">
+                <img src="https://i.scdn.co/image/ab67616100005174e82c62cc8cf019aecfd71ee8" alt="Soft Pop Hits 2024">
+                <div>
+                    <strong>Feid</strong><br>
+                    <span>Artista</span>
+                </div>
+            </div>
+            <div class="menusss-a">
+                <img src="https://i.scdn.co/image/ab6761610000e5eb3bcef85e105dfc42399ef0ba" alt="Ed Sheeran">
+                <div>
+                    <strong>Ed Sheeran</strong><br>
+                    <span>Artista</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Contenedor principal -->
+    <div class="main-container">
+        <!-- Barra superior -->
+        <div class="charcoal-bar">
+            <!-- Flechas de navegación -->
+            <div class="black-arrows">
+                <button>&larr;</button>
+                <button>&rarr;</button>
+            </div>
+
+            <!-- Barra de búsqueda -->
+            <div class="gray-search">
+                <button>&#128269;</button>
+                <input type="text" placeholder="Buscar" value="">
+
+                <button>&times;</button>
+            </div>
+
+            <!-- Iconos de la parte superior derecha -->
+            <div class="icon-bar">
+                
+                <a href="#"><span>&#128276;</span></a> <!-- Campanita -->
+                <a href="perfil.html" class="white-profile"></a> 
+            </div>
+        </div>
+
+<br>
+    <div class="podcast-container">
+        <div class="podcast-header">
+            <img src="https://yt3.googleusercontent.com/hs79Z5Ivmt9tk4erg5bWJsCFsY7oe02_pCB01O4_rSQw9qpH8gvSO7tkv_w_Q-vGnxnLFpWXJ5k=s900-c-k-c0x00ffffff-no-rj" alt="Portada del podcast">
+            <div class="podcast-info">
+                <h1>Farid Dieck | Relatos y Reflexiones</h1>
+                <div class="podcast-buttons">
+                    <button>Seguir</button>
+                    <button>...</button>
+                </div>
+                <p>Relato historias y películas y reflexiono sobre ellas. Estudié Psicología, una maestría en clínica
+                    psicoanalítica y curso otra en psicoterapia psicoanalítica. Me gusta leer filosofía y escribir
+                    poesía.</p>
+            </div>
+        </div>
+
+        <!-- Cabecera de la lista de episodios -->
+        <div class="episodes-header">
+            <h2>Todos los episodios</h2>
+            <select>
+                <option>De más reciente a más antiguo</option>
+                <option>De más antiguo a más reciente</option>
+            </select>
+        </div>
+
+        <div class="episode-list">
+            <!-- Episodios generados automáticamente -->
+            <!-- Puedes cambiar las URLs de los audios a los que desees -->
+            <div class="episode-item" data-title="Realmente QUÉ PASÓ con JOSÉ JOSÉ? | Documental"
+                data-creator="Farid Dieck" data-podcast="Relatos y Reflexiones"
+                data-audio="Farid Dieck.mp3">
+                <div class="episode-image">
+                    <img src="https://yt3.googleusercontent.com/hs79Z5Ivmt9tk4erg5bWJsCFsY7oe02_pCB01O4_rSQw9qpH8gvSO7tkv_w_Q-vGnxnLFpWXJ5k=s900-c-k-c0x00ffffff-no-rj" alt="Imagen del episodio">
+                </div>
+                <div class="episode-info">
+                    <h3>Realmente QUÉ PASÓ con JOSÉ JOSÉ? | Documental</h3>
+                    <p>En este documental, nos sumergimos en la vida y carrera del "Príncipe de la Canción", José José,
+                        uno de los intérpretes más queridos y reconocidos de la música latina.</p>
+                    <span>26 ago • 27 min</span>
+                </div>
+                <div class="episode-play">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                    </svg>
+                </div>
+            </div>
+
+            <div class="episode-item" data-title="BOB y LA CRISIS de la MEDIANA EDAD | Los Increíbles"
+                data-creator="Farid Dieck" data-podcast="Relatos y Reflexiones"
+                data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3">
+                <div class="episode-image">
+                    <img src="https://yt3.googleusercontent.com/hs79Z5Ivmt9tk4erg5bWJsCFsY7oe02_pCB01O4_rSQw9qpH8gvSO7tkv_w_Q-vGnxnLFpWXJ5k=s900-c-k-c0x00ffffff-no-rj" alt="Imagen del episodio">
+                </div>
+                <div class="episode-info">
+                    <h3>BOB y LA CRISIS de la MEDIANA EDAD | Los Increíbles | Relato y Reflexiones</h3>
+                    <p>En un mundo donde los superhéroes alguna vez fueron admirados y celebrados, Bob Parr, un
+                        superhéroe en retirada, ahora enfrenta los desafíos de la mediana edad.</p>
+                    <span>19 ago • 22 min</span>
+                </div>
+                <div class="episode-play">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                    </svg>
+                </div>
+            </div>
+
+            <div class="episode-item" data-title="El Misterio del Enigma | Relatos de Misterio"
+                data-creator="Farid Dieck" data-podcast="Relatos y Reflexiones"
+                data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3">
+                <div class="episode-image">
+                    <img src="https://yt3.googleusercontent.com/hs79Z5Ivmt9tk4erg5bWJsCFsY7oe02_pCB01O4_rSQw9qpH8gvSO7tkv_w_Q-vGnxnLFpWXJ5k=s900-c-k-c0x00ffffff-no-rj" alt="Imagen del episodio">
+                </div>
+                <div class="episode-info">
+                    <h3>El Misterio del Enigma | Relatos de Misterio</h3>
+                    <p>Explora un caso intrigante y lleno de giros inesperados mientras Farid Dieck nos lleva a través de
+                        un enigma sin resolver.</p>
+                    <span>12 ago • 33 min</span>
+                </div>
+                <div class="episode-play">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                    </svg>
+                </div>
+            </div>
+
+            <div class="episode-item" data-title="El Viaje del Héroe | Relato Inspirador"
+                data-creator="Farid Dieck" data-podcast="Relatos y Reflexiones"
+                data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3">
+                <div class="episode-image">
+                    <img src="https://yt3.googleusercontent.com/hs79Z5Ivmt9tk4erg5bWJsCFsY7oe02_pCB01O4_rSQw9qpH8gvSO7tkv_w_Q-vGnxnLFpWXJ5k=s900-c-k-c0x00ffffff-no-rj" alt="Imagen del episodio">
+                </div>
+                <div class="episode-info">
+                    <h3>El Viaje del Héroe | Relato Inspirador</h3>
+                    <p>Una reflexión sobre el clásico "Viaje del Héroe" y cómo cada uno de nosotros puede aplicar estos
+                        conceptos a nuestra vida diaria.</p>
+                    <span>5 ago • 29 min</span>
+                </div>
+                <div class="episode-play">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                    </svg>
+                </div>
+            </div>
+
+            <div class="episode-item" data-title="La Filosofía del Minimalismo | Reflexión Personal"
+                data-creator="Farid Dieck" data-podcast="Relatos y Reflexiones"
+                data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3">
+                <div class="episode-image">
+                    <img src="https://yt3.googleusercontent.com/hs79Z5Ivmt9tk4erg5bWJsCFsY7oe02_pCB01O4_rSQw9qpH8gvSO7tkv_w_Q-vGnxnLFpWXJ5k=s900-c-k-c0x00ffffff-no-rj" alt="Imagen del episodio">
+                </div>
+                <div class="episode-info">
+                    <h3>La Filosofía del Minimalismo | Reflexión Personal</h3>
+                    <p>Una mirada a cómo el minimalismo puede afectar positivamente nuestra vida diaria, con ejemplos
+                        prácticos y reflexiones personales.</p>
+                    <span>29 jul • 35 min</span>
+                </div>
+                <div class="episode-play">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                    </svg>
+                </div>
+            </div>
+
+            <div class="episode-item" data-title="El Arte de la Paciencia | Historias para Reflexionar"
+                data-creator="Farid Dieck" data-podcast="Relatos y Reflexiones"
+                data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3">
+                <div class="episode-image">
+                    <img src="https://yt3.googleusercontent.com/hs79Z5Ivmt9tk4erg5bWJsCFsY7oe02_pCB01O4_rSQw9qpH8gvSO7tkv_w_Q-vGnxnLFpWXJ5k=s900-c-k-c0x00ffffff-no-rj" alt="Imagen del episodio">
+                </div>
+                <div class="episode-info">
+                    <h3>El Arte de la Paciencia | Historias para Reflexionar</h3>
+                    <p>Relatos sobre la importancia de la paciencia en momentos difíciles y cómo esta virtud puede
+                        cambiar nuestra perspectiva de la vida.</p>
+                    <span>22 jul • 40 min</span>
+                </div>
+                <div class="episode-play">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                    </svg>
+                </div>
+            </div>
+
+            <div class="episode-item" data-title="El Camino del Aprendizaje | Educación Continua"
+                data-creator="Farid Dieck" data-podcast="Relatos y Reflexiones"
+                data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3">
+                <div class="episode-image">
+                    <img src="https://yt3.googleusercontent.com/hs79Z5Ivmt9tk4erg5bWJsCFsY7oe02_pCB01O4_rSQw9qpH8gvSO7tkv_w_Q-vGnxnLFpWXJ5k=s900-c-k-c0x00ffffff-no-rj" alt="Imagen del episodio">
+                </div>
+                <div class="episode-info">
+                    <h3>El Camino del Aprendizaje | Educación Continua</h3>
+                    <p>Una exploración sobre la importancia del aprendizaje continuo y cómo mantenerse curioso y
+                        abierto al conocimiento puede enriquecer nuestras vidas.</p>
+                    <span>15 jul • 28 min</span>
+                </div>
+                <div class="episode-play">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                    </svg>
+                </div>
+            </div>
+
+            <div class="episode-item" data-title="Historias de Superación | Ejemplos de Vida"
+                data-creator="Farid Dieck" data-podcast="Relatos y Reflexiones"
+                data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3">
+                <div class="episode-image">
+                    <img src="https://yt3.googleusercontent.com/hs79Z5Ivmt9tk4erg5bWJsCFsY7oe02_pCB01O4_rSQw9qpH8gvSO7tkv_w_Q-vGnxnLFpWXJ5k=s900-c-k-c0x00ffffff-no-rj" alt="Imagen del episodio">
+                </div>
+                <div class="episode-info">
+                    <h3>Historias de Superación | Ejemplos de Vida</h3>
+                    <p>Conoce historias de personas que han superado grandes obstáculos y cómo sus experiencias pueden
+                        inspirarte en tu propio camino.</p>
+                    <span>8 jul • 37 min</span>
+                </div>
+                <div class="episode-play">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                    </svg>
+                </div>
+            </div>
+
+            <div class="episode-item" data-title="El Valor del Perdón | Historias Emotivas"
+                data-creator="Farid Dieck" data-podcast="Relatos y Reflexiones"
+                data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3">
+                <div class="episode-image">
+                    <img src="https://yt3.googleusercontent.com/hs79Z5Ivmt9tk4erg5bWJsCFsY7oe02_pCB01O4_rSQw9qpH8gvSO7tkv_w_Q-vGnxnLFpWXJ5k=s900-c-k-c0x00ffffff-no-rj" alt="Imagen del episodio">
+                </div>
+                <div class="episode-info">
+                    <h3>El Valor del Perdón | Historias Emotivas</h3>
+                    <p>Un relato conmovedor sobre la importancia del perdón y cómo esta acción puede liberar tanto al
+                        que perdona como al perdonado.</p>
+                    <span>1 jul • 31 min</span>
+                </div>
+                <div class="episode-play">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                    </svg>
+                </div>
+            </div>
+
+            <div class="episode-item" data-title="Reflexiones sobre la Vida | Pensamientos Diarios"
+                data-creator="Farid Dieck" data-podcast="Relatos y Reflexiones"
+                data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3">
+                <div class="episode-image">
+                    <img src="https://yt3.googleusercontent.com/hs79Z5Ivmt9tk4erg5bWJsCFsY7oe02_pCB01O4_rSQw9qpH8gvSO7tkv_w_Q-vGnxnLFpWXJ5k=s900-c-k-c0x00ffffff-no-rj" alt="Imagen del episodio">
+                </div>
+                <div class="episode-info">
+                    <h3>Reflexiones sobre la Vida | Pensamientos Diarios</h3>
+                    <p>Una colección de reflexiones diarias que invitan a pensar en las pequeñas cosas de la vida y cómo
+                        podemos encontrar significado en ellas.</p>
+                    <span>24 jun • 25 min</span>
+                </div>
+                <div class="episode-play">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                    </svg>
+                </div>
+            </div>
+
+            <div class="episode-item" data-title="El Poder de la Gratitud | Historias Inspiradoras"
+                data-creator="Farid Dieck" data-podcast="Relatos y Reflexiones"
+                data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-11.mp3">
+                <div class="episode-image">
+                    <img src="https://yt3.googleusercontent.com/hs79Z5Ivmt9tk4erg5bWJsCFsY7oe02_pCB01O4_rSQw9qpH8gvSO7tkv_w_Q-vGnxnLFpWXJ5k=s900-c-k-c0x00ffffff-no-rj" alt="Imagen del episodio">
+                </div>
+                <div class="episode-info">
+                    <h3>El Poder de la Gratitud | Historias Inspiradoras</h3>
+                    <p>Descubre cómo la gratitud puede transformar nuestra vida a través de historias reales que
+                        muestran su impacto positivo.</p>
+                    <span>17 jun • 32 min</span>
+                </div>
+                <div class="episode-play">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                    </svg>
+                </div>
+            </div>
+
+            <div class="episode-item" data-title="La Magia de los Pequeños Momentos | Relatos Cotidianos"
+                data-creator="Farid Dieck" data-podcast="Relatos y Reflexiones"
+                data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-12.mp3">
+                <div class="episode-image">
+                    <img src="https://yt3.googleusercontent.com/hs79Z5Ivmt9tk4erg5bWJsCFsY7oe02_pCB01O4_rSQw9qpH8gvSO7tkv_w_Q-vGnxnLFpWXJ5k=s900-c-k-c0x00ffffff-no-rj" alt="Imagen del episodio">
+                </div>
+                <div class="episode-info">
+                    <h3>La Magia de los Pequeños Momentos | Relatos Cotidianos</h3>
+                    <p>Historias que nos recuerdan la importancia de los pequeños momentos en nuestra vida y cómo pueden
+                        tener un gran impacto.</p>
+                    <span>10 jun • 30 min</span>
+                </div>
+                <div class="episode-play">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                    </svg>
+                </div>
+            </div>
+
+            <div class="episode-item" data-title="El Camino del Corazón | Reflexiones sobre el Amor"
+                data-creator="Farid Dieck" data-podcast="Relatos y Reflexiones"
+                data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-13.mp3">
+                <div class="episode-image">
+                    <img src="https://yt3.googleusercontent.com/hs79Z5Ivmt9tk4erg5bWJsCFsY7oe02_pCB01O4_rSQw9qpH8gvSO7tkv_w_Q-vGnxnLFpWXJ5k=s900-c-k-c0x00ffffff-no-rj" alt="Imagen del episodio">
+                </div>
+                <div class="episode-info">
+                    <h3>El Camino del Corazón | Reflexiones sobre el Amor</h3>
+                    <p>Una exploración profunda sobre el amor y las distintas formas en las que se manifiesta en
+                        nuestra vida cotidiana.</p>
+                    <span>3 jun • 34 min</span>
+                </div>
+                <div class="episode-play">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                    </svg>
+                </div>
+            </div>
+
+            <div class="episode-item" data-title="Lecciones de Vida | Reflexiones desde la Experiencia"
+                data-creator="Farid Dieck" data-podcast="Relatos y Reflexiones"
+                data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-14.mp3">
+                <div class="episode-image">
+                    <img src="https://yt3.googleusercontent.com/hs79Z5Ivmt9tk4erg5bWJsCFsY7oe02_pCB01O4_rSQw9qpH8gvSO7tkv_w_Q-vGnxnLFpWXJ5k=s900-c-k-c0x00ffffff-no-rj" alt="Imagen del episodio">
+                </div>
+                <div class="episode-info">
+                    <h3>Lecciones de Vida | Reflexiones desde la Experiencia</h3>
+                    <p>Un compendio de lecciones aprendidas a lo largo de la vida que invitan a la reflexión y al
+                        crecimiento personal.</p>
+                    <span>27 may • 39 min</span>
+                </div>
+                <div class="episode-play">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                    </svg>
+                </div>
+            </div>
+
+            <div class="episode-item" data-title="El Desafío de la Resiliencia | Historias de Supervivencia"
+                data-creator="Farid Dieck" data-podcast="Relatos y Reflexiones"
+                data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3">
+                <div class="episode-image">
+                    <img src="https://yt3.googleusercontent.com/hs79Z5Ivmt9tk4erg5bWJsCFsY7oe02_pCB01O4_rSQw9qpH8gvSO7tkv_w_Q-vGnxnLFpWXJ5k=s900-c-k-c0x00ffffff-no-rj" alt="Imagen del episodio">
+                </div>
+                <div class="episode-info">
+                    <h3>El Desafío de la Resiliencia | Historias de Supervivencia</h3>
+                    <p>Descubre relatos de resiliencia y supervivencia que demuestran la capacidad humana para
+                        sobreponerse a las adversidades.</p>
+                    <span>20 may • 38 min</span>
+                </div>
+                <div class="episode-play">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                    </svg>
+                </div>
+            </div>
+
+            <div class="episode-item" data-title="La Fuerza de la Empatía | Reflexiones Humanas"
+                data-creator="Farid Dieck" data-podcast="Relatos y Reflexiones"
+                data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-16.mp3">
+                <div class="episode-image">
+                    <img src="https://yt3.googleusercontent.com/hs79Z5Ivmt9tk4erg5bWJsCFsY7oe02_pCB01O4_rSQw9qpH8gvSO7tkv_w_Q-vGnxnLFpWXJ5k=s900-c-k-c0x00ffffff-no-rj" alt="Imagen del episodio">
+                </div>
+                <div class="episode-info">
+                    <h3>La Fuerza de la Empatía | Reflexiones Humanas</h3>
+                    <p>Un relato sobre la importancia de la empatía en nuestras relaciones interpersonales y cómo esta
+                        habilidad puede mejorar nuestra convivencia diaria.</p>
+                    <span>13 may • 31 min</span>
+                </div>
+                <div class="episode-play">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                    </svg>
+                </div>
+            </div>
+
+            <div class="episode-item" data-title="El Camino hacia la Paz Interior | Reflexiones Espirituales"
+                data-creator="Farid Dieck" data-podcast="Relatos y Reflexiones"
+                data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-17.mp3">
+                <div class="episode-image">
+                    <img src="https://yt3.googleusercontent.com/hs79Z5Ivmt9tk4erg5bWJsCFsY7oe02_pCB01O4_rSQw9qpH8gvSO7tkv_w_Q-vGnxnLFpWXJ5k=s900-c-k-c0x00ffffff-no-rj" alt="Imagen del episodio">
+                </div>
+                <div class="episode-info">
+                    <h3>El Camino hacia la Paz Interior | Reflexiones Espirituales</h3>
+                    <p>Una exploración sobre cómo encontrar la paz interior a través de prácticas espirituales y
+                        reflexiones personales.</p>
+                    <span>6 may • 36 min</span>
+                </div>
+                <div class="episode-play">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                    </svg>
+                </div>
+            </div>
+
+            <div class="episode-item" data-title="El Arte de Vivir en el Presente | Relatos Contemplativos"
+                data-creator="Farid Dieck" data-podcast="Relatos y Reflexiones"
+                data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-18.mp3">
+                <div class="episode-image">
+                    <img src="https://yt3.googleusercontent.com/hs79Z5Ivmt9tk4erg5bWJsCFsY7oe02_pCB01O4_rSQw9qpH8gvSO7tkv_w_Q-vGnxnLFpWXJ5k=s900-c-k-c0x00ffffff-no-rj" alt="Imagen del episodio">
+                </div>
+                <div class="episode-info">
+                    <h3>El Arte de Vivir en el Presente | Relatos Contemplativos</h3>
+                    <p>Reflexiones sobre la importancia de vivir en el presente y cómo esta práctica puede mejorar
+                        nuestra calidad de vida.</p>
+                    <span>29 abr • 30 min</span>
+                </div>
+                <div class="episode-play">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                    </svg>
+                </div>
+            </div>
+<br>
+<br>
+<br>
+<br>
+
+    <!-- Reproductor de audio -->
+    <div class="audio-player" id="audioPlayer">
+        <img src="https://via.placeholder.com/60" alt="Imagen del episodio" id="audioPlayerImg">
+        <div class="audio-info">
+            <h3 id="audioPlayerTitle">Título del episodio</h3>
+            <p id="audioPlayerDesc">Creador • Título del podcast</p>
+        </div>
+        <div class="audio-controls">
+            <audio id="audioElement" controls>
+                <source src="" type="audio/mp3">
+                Tu navegador no soporta la reproducción de audio.
+            </audio>
+        </div>
+    </div>
+
+    <script>
+        const playButtons = document.querySelectorAll('.episode-play');
+        const audioPlayer = document.getElementById('audioPlayer');
+        const audioPlayerTitle = document.getElementById('audioPlayerTitle');
+        const audioPlayerDesc = document.getElementById('audioPlayerDesc');
+        const audioElement = document.getElementById('audioElement');
+        const audioPlayerImg = document.getElementById('audioPlayerImg');
+
+        playButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const episodeItem = button.closest('.episode-item');
+                const title = episodeItem.getAttribute('data-title');
+                const creator = episodeItem.getAttribute('data-creator');
+                const podcast = episodeItem.getAttribute('data-podcast');
+                const audioSrc = episodeItem.getAttribute('data-audio');
+                const imgSrc = episodeItem.querySelector('.episode-image img').src;
+
+                audioPlayerTitle.textContent = title;
+                audioPlayerDesc.textContent = `${creator} • ${podcast}`;
+                audioElement.src = audioSrc;
+                audioPlayerImg.src = imgSrc;
+
+                audioPlayer.classList.add('show');
+                audioElement.play();
+            });
+        });
+    </script>
+</body>
+
+</html>

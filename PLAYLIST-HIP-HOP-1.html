@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reproductor con Lista</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+margin-left: 325px;
+        }
+
+        .playlist-container {
+            padding: 20px;
+margin-left: 30px;
+        }
+
+        .playlist-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+margin-left: 10px;
+margin-top: 30px;
+        }
+
+        .playlist-header img {
+            width: 135px;
+            height: 135px;
+            border-radius: 0px;
+            margin-right: 20px;
+box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .playlist-header h2 {
+            font-size: 100px;
+            margin: 0;
+        }
+
+        .playlist-header p {
+            margin: 5px 0;
+font-size: 15px;
+color: #F0F0F0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+
+
+        }
+
+        th {
+            font-weight: normal;
+            color: gray;
+            border-bottom: 1px solid #404040;
+        }
+
+        td img {
+            width: 40px;
+            height: 40px;
+            border-radius: 5px;
+        }
+
+        tr:hover {
+            cursor: pointer;
+            background-color: rgba(255, 255, 255, 0.2);
+border-radius: 15px;
+
+
+
+        }
+
+        .player {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 98%;
+            background-color: #181818;
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.7);
+
+        }
+
+        .song-info {
+            display: flex;
+            align-items: center;
+
+        }
+
+        .song-info img {
+            width: 50px;
+            height: 50px;
+            border-radius: 5px;
+            margin-right: 15px;
+        }
+
+        .song-info div {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .song-info div span {
+            font-size: 14px;
+        }
+
+        .controls {
+            display: flex;
+            align-items: center;
+        }
+
+        .controls button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            margin: 0 10px;
+            cursor: pointer;
+        }
+
+        .controls button:hover {
+            color: #1db954;
+        }
+
+        .play-pause {
+            font-size: 30px;
+            margin: 0 20px;
+        }
+
+        .progress-bar-container {
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+            margin: 0 20px;
+        }
+
+        .progress-time {
+            font-size: 12px;
+            margin: 0 10px;
+        }
+
+        .progress-bar {
+            flex-grow: 1;
+            background-color: #404040;
+            border-radius: 5px;
+            height: 5px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .progress-bar div {
+            background-color: white;
+            height: 100%;
+            width: 0%;
+            border-radius: 5px;
+        }
+
+        .extra-controls {
+            display: flex;
+            align-items: center;
+        }
+
+        .extra-controls i {
+            font-size: 16px;
+            margin-left: 15px;
+            cursor: pointer;
+        }
+
+        .extra-controls i:hover {
+            color: #1db954;
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            margin-left: 10px;
+        }
+
+        .volume-control i {
+            margin-right: 5px;
+        }
+
+        .volume-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 70px;
+            background-color: #404040;
+            height: 4px;
+            border-radius: 2px;
+            outline: none;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            background-color: white;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+
+
+.recuadro {
+    position: absolute;
+    top: 108px; /* Ajusta la posición vertical */
+    left: 360px; /* Ajusta la posición horizontal */
+    width: 970px; /* Ancho del recuadro */
+    height: 420px; /* Alto del recuadro */
+            background: linear-gradient(180deg, #d4a357 0%, #000000 100%);
+    z-index: -1; /* Asegura que esté detrás de otros elementos */
+            border-radius: 15px;
+}
+
+
+       .sidebar {
+            width: 360px;
+            height: 100vh;
+            background-color: #000;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+position: fixed;
+left: 0px
+        }
+        
+        .upper-section, .lower-section {
+            background-color: #181818;
+            border-radius: 10px;
+            padding: 15px;
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 13px 0;
+            font-size: 14px;
+            cursor: pointer;
+            color: #B3B3B3;
+            transition: color 0.3s ease;
+    width: 250px;
+    height: 50px; 
+        }
+        
+        .menu-item img {
+            width: 50px;
+            height: 50px;
+            border-radius: 4px;
+            margin-right: 15px;
+        }
+
+        .menu-item:hover {
+            color: white;
+        }
+
+        .menu-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            margin: 20px 0 10px;
+            color: #B3B3B3;
+        }
+
+        .search, .library {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            font-size: 16px;
+            color: white;
+        }
+
+        .library .options {
+            display: flex;
+            align-items: center;
+        }
+
+        .library .options button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+width: 100px;
+        }
+
+        .tab {
+            padding: 6px 12px;
+            background-color: #282828;
+            border-radius: 16px;
+            font-size: 12px;
+            cursor: pointer;
+            color: #B3B3B3;
+            transition: background-color 0.3s ease;
+        }
+
+        .tab:hover {
+            background-color: #3c3c3c;
+            color: white;
+        }
+
+     
+        /* Contenedor principal para correr todos los elementos hacia la derecha */
+        .main-container {
+            margin-left: 0px; /* Deja un espacio de 360px en la izquierda */
+
+}
+
+        .charcoal-bar {
+            display: flex;
+            align-items: center;
+            padding: 20px 30px; /* Aumenta el espacio interno */
+            gap: 20px; /* Espacio entre los elementos dentro de la barra superior */
+        }
+
+        .black-arrows {
+            display: flex;
+            gap: 20px; /* Espacio entre las flechas */
+        }
+
+        .black-arrows button {
+            background-color: #000; /* Fondo negro */
+            border: none;
+            color: #fff;
+            padding: 15px; /* Aumenta el tamaño de los botones */
+            border-radius: 50%;
+            cursor: pointer;
+
+        }
+
+        .gray-search {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            background-color: #333; /* Fondo gris oscuro */
+            padding: 15px 20px; /* Aumenta el espacio interno en la barra de búsqueda */
+            border-radius: 25px;
+            margin-right: 10px; /* Espacio a la derecha de la barra de búsqueda */
+width: 530px
+
+
+        }
+
+        .gray-search input {
+            background-color: transparent;
+            border: none;
+            color: #fff;
+            flex: 1;
+            padding-left: 20px; /* Aumenta el espacio interno a la izquierda del input */
+            outline: none;
+            font-size: 16px;
+        }
+
+        .gray-search input::placeholder {
+            color: #ccc; /* Color gris claro */
+        }
+
+        .gray-search button {
+            background-color: transparent;
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .icon-bar {
+            display: flex;
+            align-items: center;
+            gap: 40px; /* Aumenta el espacio entre los iconos */
+margin-left: 50px;
+
+        }
+
+        .icon-bar a {
+            text-decoration: none;
+            color: #fff;
+            
+            padding: 15px 20px; /* Aumenta el espacio interno en los iconos */
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 60px;
+
+ 
+        }
+
+        .icon-bar .white-profile {
+            background-image: url('https://lh3.googleusercontent.com/a/ACg8ocIVXuF5nwG5vcM6_x2EtevDabyzo8WL7uqxfMORQ2yCH0UQBFaN=s96-c-rg-br100'); /* Cambia esta URL por la de tu imagen */
+            background-size: cover;
+            width: 15px; /* Aumenta el tamaño del icono de perfil */
+            height: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+margin-left: -10px;
+
+}
+          .menusss-a {
+            display: flex;
+            align-items: center;
+            padding: 13px 0;
+            font-size: 14px;
+            cursor: pointer;
+            color: #B3B3B3;
+            transition: color 0.3s ease;
+    width: 250px;
+    height: 50px; 
+        }      
+.menusss-a img {
+            width: 50px;
+            height: 50px;
+            border-radius: 40px;
+            margin-right: 15px;
+        }
+        .menusss-a:hover {
+            color: white;
+        }
+
+        .menusss-a-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            margin: 20px 0 10px;
+            color: #B3B3B3;
+        }
+
+
+        .recuadrost {
+            position: absolute;
+            top: 320px; /* Ajusta la posición vertical */
+            left: 360px; /* Ajusta la posición horizontal */
+            width: 970px; /* Ancho del recuadro */
+            height: 250px; /* Alto del recuadro */
+            z-index: -1; /* Asegura que esté detrás de otros elementos */
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .contenidost {
+            position: relative;
+            z-index: 2; /* Asegura que este contenido esté encima del recuadro */
+            margin: 50px; /* Espaciado para que no se superponga */
+color: white;
+top: 15px
+        }
+
+
+        .playn-button {
+            width: 50px;
+            height: 50px;
+            background-color: #1db954;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            cursor: pointer;
+        }
+
+        .playn-button::before {
+            content: '▶';
+            color: #fff;
+            font-size: 24px;
+            margin-left: 5px;
+        }
+
+        .controlsts {
+            display: flex;
+            align-items: center;
+            margin-top: -2500px;
+margin-left:80px;
+        }
+
+        .controln-icon {
+            font-size: 24px;
+            color: #b3b3b3;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+
+
+    <div class="sidebar">
+        <div class="upper-section">
+            <div class="search">
+      <a href="BUSQUEDA-ARTISTA.html" class="search">Inicio</a>
+            </div>
+     <a href="BUSCAR.html" class="search">Buscar</a>
+        </div>
+        
+        <div class="lower-section">
+            <div class="library">
+                <span>Tu biblioteca</span>
+                <div class="options">
+                    <button>+</button>
+                    <button>→</button>
+                </div>
+            </div>
+            <div class="tabs">
+                <div class="tab">Playlists</div>
+                <div class="tab">Artistas</div>
+                <div class="tab">Álbumes</div>
+            </div>
+            <div class="menu-title">Recientes</div>
+            <div class="menu-item">
+                <img src="https://marcelolanegra.github.io/proyecto-spotifu/images/liked-songs-640.png" alt="Tus me gusta">
+                <div>
+                    <strong>Tus me gusta</strong><br>
+                    <span>Playlist • 23 canciones</span>
+                </div>
+            </div>
+            <div class="menu-item">
+                <img src="file:///C:/Users/JULIANQUINTERO/Downloads/Dise%C3%B1o%20sin%20t%C3%ADtulo%20(8).png" alt="Tus episodios">
+                <div>
+                    <strong>Tus episodios</strong><br>
+                    <span>Episodios guardados y descargados</span>
+                </div>
+            </div>
+            <div class="menusss-a">
+                <img src="https://i.scdn.co/image/ab67616100005174e82c62cc8cf019aecfd71ee8" alt="Soft Pop Hits 2024">
+                <div>
+                    <strong>Feid</strong><br>
+                    <span>Artista</span>
+                </div>
+            </div>
+            <div class="menusss-a">
+                <img src="https://i.scdn.co/image/ab6761610000e5eb3bcef85e105dfc42399ef0ba" alt="Ed Sheeran">
+                <div>
+                    <strong>Ed Sheeran</strong><br>
+                    <span>Artista</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Contenedor principal -->
+    <div class="main-container">
+        <!-- Barra superior -->
+        <div class="charcoal-bar">
+            <!-- Flechas de navegación -->
+            <div class="black-arrows">
+                <button>&larr;</button>
+                <button>&rarr;</button>
+            </div>
+
+            <!-- Barra de búsqueda -->
+            <div class="gray-search">
+                <button>&#128269;</button>
+                <input type="text" placeholder="Buscar" value="">
+
+                <button>&times;</button>
+            </div>
+
+            <!-- Iconos de la parte superior derecha -->
+            <div class="icon-bar">
+                
+                <a href="#"><span>&#128276;</span></a> <!-- Campanita -->
+                <a href="perfil.html" class="white-profile"></a> 
+            </div>
+        </div>
+
+    <div class="recuadro"></div>
+
+    <div class="playlist-container">
+        <div class="playlist-header">
+            <img src="https://i.scdn.co/image/ab67706f00000002f286a7bd067fae6517bd44ed" alt="cover">
+            <div>
+                <h2>Trap viejito</h2>
+
+                <p>Palos de ayer, clásicos para siempre. Fot Bad Bunny.</p>
+                <p>Going Quantum • 3,679 likes • 30 songs, 2 hr 50 min</p>
+            </div>
+        </div>
+<br>
+<br>
+<br>
+
+
+        <!-- Lista de canciones -->
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Title</th>
+                    <th>Album</th>
+                    <th>Date Added</th>
+                    <th>Duration</th>
+                </tr>
+            </thead>
+            <tbody id="song-list">
+                <!-- Las canciones se agregarán dinámicamente aquí -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Reproductor -->
+    <div class="player" id="player">
+        <div class="song-info">
+            <img src="" alt="cover" id="song-cover">
+            <div>
+                <span id="song-title">Title</span>
+                <span id="song-artist">Artist</span>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button id="shuffle-btn"><i class="fas fa-random"></i></button>
+            <button id="prev-btn"><i class="fas fa-step-backward"></i></button>
+            <button class="play-pause" id="play-pause-btn"><i class="fas fa-play"></i></button>
+            <button id="next-btn"><i class="fas fa-step-forward"></i></button>
+            <button id="repeat-btn"><i class="fas fa-redo"></i></button>
+        </div>
+
+        <div class="progress-bar-container">
+            <span class="progress-time" id="current-time">0:00</span>
+            <div class="progress-bar" id="progress-bar">
+                <div id="progress"></div>
+            </div>
+            <span class="progress-time" id="total-time">0:00</span>
+        </div>
+
+        <div class="extra-controls">
+            <i class="fas fa-volume-up"></i>
+            <input type="range" class="volume-slider" id="volume-slider" min="0" max="1" step="0.01" value="0.7">
+        </div>
+    </div>
+
+    <!-- Elemento de audio -->
+    <audio id="audio-player"></audio>
+
+    <div class="recuadrost"></div>
+    <div class="contenidost">
+
+    </div>
+
+
+    <div class="controlsts">
+        <!-- Botón de Play (Reproducción) -->
+        <i class="fas fa-play-circle" style="color: #74C0FC; font-size: 60px; margin-right:20px; margin-left:-20px;"></i> <!-- Círculo verde con botón de play -->
+        
+        <!-- Icono de Shuffle (Reproducción aleatoria) -->
+        <i class="fas fa-random" style="color: #1ED760; font-size: 30px; margin-right:20px;"></i> <!-- Flechas entrecruzadas -->
+        
+        <!-- Icono de Agregar (+) -->
+        <i class="fas fa-plus-circle" style="color: #bbc8d3; font-size: 30px;  margin-left:710px;"></i> <!-- Círculo con símbolo de suma -->
+        
+        <!-- Icono de Opciones (Tres puntos) -->
+        <i class="fas fa-ellipsis-h" style="color: #ffffff; font-size: 30px; margin-left:-650px;"></i> <!-- Tres puntos horizontales -->
+
+<i class="fa-solid fa-heart"  style="color: #bbc8d3; font-size: 30px; margin-left:-100px;"></i>
+<i class="fa-solid fa-list" style="font-size: 30px; color: #bbc8d3; margin-left:710px;"></i>
+    </div>
+
+
+    <script>
+        const audioPlayer = document.getElementById('audio-player');
+        const playPauseBtn = document.getElementById('play-pause-btn');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const shuffleBtn = document.getElementById('shuffle-btn');
+        const repeatBtn = document.getElementById('repeat-btn');
+        const player = document.getElementById('player');
+        const songTitle = document.getElementById('song-title');
+        const songArtist = document.getElementById('song-artist');
+        const songCover = document.getElementById('song-cover');
+        const progressBar = document.getElementById('progress');
+        const progressBarContainer = document.getElementById('progress-bar');
+        const currentTimeElem = document.getElementById('current-time');
+        const totalTimeElem = document.getElementById('total-time');
+        const volumeSlider = document.getElementById('volume-slider');
+        const songListElem = document.getElementById('song-list');
+
+        const songs = [
+            { title: 'Diles', artist: 'Bad Bunny, 0zuna, Farruko, Arcángel ', cover: 'https://i.scdn.co/image/ab67616d0000b273f62aa1dd0b43f583418cd018', src: 'mp3-Play1/Diles - Bad Bunny, Ozuna, Farruko, Arcangel, Ñengo Flow.mp3', album: 'Diles', dateAdded: '8 mar 2024', duration: '4:46' },
+
+            { title: 'Nena Maldición', artist: 'Paulo Londra, Lenny Tavárez', cover: 'https://i.scdn.co/image/ab67616d0000b273cf7e54f668d6a31dd6566f24', src: 'mp3-Play1/Paulo Londra ft Lenny Tavarez - Nena Maldicion (Official Video).mp3', album: 'Homerun', dateAdded: '8 mar 2024', duration: '3:48' },
+
+            { title: 'Si Tu Novio Te Deja Sola', artist: 'J Balvin, Bad Bunny', cover: 'https://i.scdn.co/image/ab67616d0000b2736a890260194d85f648af0d6a', src: 'mp3-Play1/Si Tu Novio Te Deja Sola Letra J Balvin Ft Bad Bunny.mp3', album: 'Si Tu Novio Te Deja Sola', dateAdded: '8 mar 2024', duration: '4:04' },
+
+            { title: 'Triste', artist: 'Bryant Myers, Bad Bunny', cover: 'https://i.scdn.co/image/ab67616d00001e022fdd0a9ae1bd6385667cc1e7', src: 'mp3-Play1/Bryant Myers & Bad Bunny - Triste (Official Audio).mp3', album: 'La Oscuridad', dateAdded: '8 mar 2024', duration: '4:25' },
+
+ { title: 'Mamichula', artist: 'Trueno, Nicki Nicole, Bizarrap', cover: 'https://i.scdn.co/image/ab67616d0000b273f4483d4440a89a2cab3b5141', src: 'mp3-Play1/Trueno, Nicki Nicole, Bizarrap - MAMICHULA.mp3', album: 'Atrevido', dateAdded: '8 mar 2024', duration: '3:39' },
+
+{ title: 'Tu No Vive Así', artist: 'Arcángel, Bad Bunny, Mambo Kingz', cover: 'https://images.genius.com/2bff38b6bf1e209384e6298a59eccf5e.1000x1000x1.jpg', src: 'mp3-Play1/Arcangel x Bad Bunny X Dj Luian X Mambo Kingz - Tu No Vive Asi [Video oficial].mp3', album:'Tu No Vive Así', dateAdded: '8 mar 2024', duration: '4:24' },
+
+
+            { title: 'O Sentimientos - Remix', artist: 'Jon Z, Noriel, Darkiel, Messiah', cover: 'https://i.scdn.co/image/ab67616d0000b273230876c09788224648947c56', src: 'mp3-Play1/Jon Z - 0 Sentimientos (Remix) ft. Baby Rasta, Noriel, Lyan, Darkiel, Messiah (Audio).mp3', album: 'O Sentimientos (Remix)', dateAdded: '8 mar 2024', duration: '5:35' },
+
+
+
+            { title: 'No Te Hagas', artist: 'Jory Boy, Bad Bunny', cover: 'https://i1.sndcdn.com/artworks-000211991370-3rqk8g-t500x500.jpg', src: 'mp3-Play1/No Te Hagas (Audio Oficial) - Bad Bunny Feat. Jory Boy  Prod. By Dj Luian & Mambo Kingz.mp3', album: 'No Te Hagas', dateAdded: '8 mar 2024', duration: '3:53' },
+
+            { title: 'Loca', artist: 'KHEA, Duki, Cazzu, Omar Varela, MYKKA', cover: 'https://i.scdn.co/image/ab67616d0000b273907c363225bfd55a5dbb4051', src: 'mp3-Play1/Khea - Loca ft. Duki & Cazzu (Prod. Omar Varela & Mykka).mp3', album: 'Loca', dateAdded: '8 mar 2024', duration: '4:06' },
+
+            { title: 'Netflixxx', artist: 'Brytiago, Bad Bunny', cover: 'https://i.scdn.co/image/ab67616d0000b273128a34c55f651667ae1584da', src: 'mp3-Play1/Brytiago ft Bad Bunny - Netflix [Audio Oficial].mp3', album: 'Netflixxx', dateAdded: '8 mar 2024', duration: '3:39' },
+
+
+            { title: 'Vuelve', artist: 'Daddy Yankee, Bad Bunny', cover: 'https://i.scdn.co/image/ab67616d0000b273ec748231035512e229a1376e', src: 'mp3-Play1/Vuelve - Bad Bunny Ft.Daddy Yankee (Audio Oficial).mp3', album: 'Vuelve', dateAdded: '8 mar 2024', duration: '4:39' },
+
+
+            { title: 'Me Ama Me Odia', artist: 'Revol, Ozuna, Cosculluela, Arcángel', cover: 'https://i.scdn.co/image/ab67616d0000b273a467570091185c84b22eab5a', src: 'mp3-Play1/Ozuna x Arcángel x Cosculluela x Brytiago - Me Ama Me Odia (Video Oficial).mp3', album: 'Me Ama Me Odia', dateAdded: '8 mar 2024', duration: '5:26' },
+
+
+            { title: 'Dime Si Te Acuerdas', artist: 'Bad Bunny', cover: 'https://i.scdn.co/image/ab67616d0000b273c1445ffb7726fb12190914e7', src: 'mp3-Play1/Dime Si Te Acuerdas - Bad Bunny (Audio).mp3', album: 'Dime Si Te Acuerdas', dateAdded: '8 mar 2024', duration: '3:07' },
+
+
+            { title: 'De las 2', artist: 'Trap Capos, Noriel, Bad Bunny, Arcángel', cover: 'https://i.scdn.co/image/ab67616d0000b2739f58135b8b90183a172a870f', src: 'mp3-Play1/Trap Capos, Noriel - De las 2 (Official Video) ft. Bad Bunny, Arcángel.mp3', album: 'Trap Capos II', dateAdded: '8 mar 2024', duration: '4:20' },
+
+
+            { title: 'Ahora Me Llama', artist: 'KAROL G, Bad Bunny', cover: 'https://i.scdn.co/image/ab67616d0000b27305d4c968adbeb7255e60f98b', src: 'mp3-Play1/Karol G, Bad Bunny - Ahora Me Llama (Official Video).mp3', album: 'Ahora Me Llama', dateAdded: '8 mar 2024', duration: '3:53' },
+
+
+            { title: 'Bubalu', artist: 'Becky G, Prince Royce, DJ Luian, Mambo Kingz', cover: 'https://i.scdn.co/image/ab67616d0000b273d4109852bbf94774833e8d05', src: 'mp3-Play1/Anuel AA Feat. Becky G, Prince Royce - Bubalu  (Audio).mp3', album: 'Bubalu', dateAdded: '8 mar 2024', duration: '3:48' },
+
+
+            { title: 'Loca - Remix', artist: 'KHEA, Bad Bunny, Duki, Cazzu', cover: 'https://i1.sndcdn.com/artworks-g3HhA5odUja0-0-t500x500.jpg', src: 'mp3-Play1/Khea - Loca Remix Ft. Bad Bunny, Duki, Cazzu (Prod. by Omar Varela & Mykka).mp3', album: 'Loca - Remix', dateAdded: '8 mar 2024', duration: '5:46' },
+
+
+            { title: 'Chica Paranormal', artist: 'Paulo Londra', cover: 'https://i.scdn.co/image/ab67616d0000b273cf7e54f668d6a31dd6566f24', src: 'mp3-Play1/Paulo Londra - Chica Paranormal (Audio Oficial ).mp3', album: 'Homerun', dateAdded: '8 mar 2024', duration: '3:41' },
+
+
+            { title: 'Ahora Dice', artist: 'Chris Jedi, J Balvin, Ozuna, Arcángel', cover: 'https://i.scdn.co/image/ab67616d0000b273c2ebdb7961aa82110fa4877a', src: 'mp3-Play1/Chris Jedi - Ahora Dice (Official Video) ft. J. Balvin, Ozuna, Arcángel.mp3', album: 'Ahora Dice', dateAdded: '8 mar 2024', duration: '4:30' },
+
+
+            { title: 'Caile', artist: 'Bad Bunny, Bryant Myers, Rauw Alejandro', cover: 'https://i1.sndcdn.com/artworks-000199991856-uq8ipl-t1080x1080.jpg', src: 'mp3-Play1/Caile (feat. Zion & De La Ghetto).mp3', album: 'Caile', dateAdded: '8 mar 2024', duration: '5:00' },
+
+
+            { title: 'Un Ratito Mas', artist: 'Bryant Myers, Bad Bunny', cover: 'https://i1.sndcdn.com/artworks-000221725484-78mimk-t500x500.jpg', src: 'mp3-Play1/Bryant Myers - Un Ratito Mas ft. Bad Bunny (Video Oficial).mp3', album: 'Un Ratito Mas', dateAdded: '8 mar 2024', duration: '4:43' },
+
+
+            { title: 'Po encima', artist: 'Arcángel, Bryant Myers', cover: 'https://i.scdn.co/image/ab67616d0000b273db44cf8f9b079c8a6149a0ca', src: 'mp3-Play1/Arcángel, Bryant Myers - Po Encima (Video Oficial).mp3', album: 'Po encima', dateAdded: '8 mar 2024', duration: '3:31' },
+
+
+            { title: 'Percocet (Remix)', artist: 'Alex Rose, Lenny Tavárez', cover: 'https://i.scdn.co/image/ab67616d0000b273bdcad0f482abc977e80696ee', src: 'mp3-Play1/Alex Rose ft. Lenny Tavarez, Quimico, Ultra Mega & Chris Wandell - Percocet (Remix) [Audio Oficial].mp3', album: 'Percocet (Remix)', dateAdded: '8 mar 2024', duration: '5:14' },
+
+
+            { title: 'Sexto Sentido', artist: 'Gigolo Y La Exce, Bad Bunny', cover: 'https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/3c/ef/94/3cef94dd-33d7-34de-21df-a239a84e7388/191079683093.jpg/600x600bf-60.jpg', src: 'mp3-Play1/Gigolo Y La Exce, Bad Bunny - Sexto Sentido (Audio Oficial).mp3', album: 'Sexto Sentido', dateAdded: '8 mar 2024', duration: '3:47' },
+
+
+            { title: 'No Me Llores', artist: 'Duki, Leby', cover: 'https://i1.sndcdn.com/artworks-000410231508-0jozc2-t500x500.jpg', src: 'mp3-Play1/Duki, Leby - No Me Llores (audio oficial).mp3', album: 'No Me Llores', dateAdded: '8 mar 2024', duration: '3:11' },
+
+
+            { title: 'Lejos de Ti', artist: 'Rels B', cover: 'https://i.scdn.co/image/ab67616d0000b2730579a9f20ec52281f4447c73', src: 'mp3-Play1/Rels B - LEJOS DE TI (Audio).mp3', album: 'Flakk Daniel Lp', dateAdded: '8 mar 2024', duration: '3:14' },
+
+
+            { title: 'Hoy', artist: 'Ñengo Flow, Bad Bunny', cover: 'https://i.scdn.co/image/ab67616d0000b2738027684a0bac31a4e2b5f6f3', src: 'mp3-Play1/Ñengo Flow - Hoy ft. Bad Bunny [Official Video].mp3', album: 'Real G4 Life Vol. 3', dateAdded: '8 mar 2024', duration: '3:54' },
+
+
+            { title: 'Tacos Altos', artist: 'Farruko, Arcángel, Noriel', cover: 'https://i.scdn.co/image/ab67616d0000b273fe8dff7124a28e1aeb9e776e', src: 'mp3-Play1/Arcangel, Noriel, Farruko, Bryant Myers, Alex Gárgolas - Tacos Altos (Official Video).mp3', album: 'Tacos Altos', dateAdded: '8 mar 2024', duration: '5:06' },
+
+
+            { title: 'Brindemos', artist: 'Anuel AA, Ozuna', cover: 'https://i.scdn.co/image/ab67616d0000b2738cce3c807c4a560c09a86e9a', src: 'mp3-Play1/Anuel AA - Brindemos feat. Ozuna (Audio).mp3', album: 'Real Hasta la Muerte', dateAdded: '8 mar 2024', duration: '3:36' },
+
+
+            { title: 'Hello Cotto', artist: 'Duki', cover: 'https://www.cmtv.com.ar/tapas_cd_227x227/dukihellocottosingle.webp', src: 'mp3-Play1/Duki - Hello Cotto (Prod. by Omar Varela, Mykka & Asan).mp3', album: 'Hello Cotto', dateAdded: '8 mar 2024', duration: '3:37' },
+
+
+
+            // Agrega 27 canciones más aquí...
+        ];
+
+
+        let currentSongIndex = 0;
+        let isPlaying = false;
+        let isShuffling = false;
+        let isRepeating = false;
+
+// Función para cargar canciones en la tabla, incluyendo la imagen del cover
+function loadSongs() {
+    songs.forEach((song, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>
+                <img src="${song.cover}" alt="Cover" style="width: 45px; height: 45px; object-fit: cover; border-radius: 4px; vertical-align: middle; margin-right: 10px; margin-left:-20px; margin-top:2px;">
+                ${song.title}<span style="font-size: 15px; color: #888; display: inline-block;padding: -150px -40px; margin-left:9px;">${song.artist}</span>
+            </td>
+            <td>${song.album}</td>
+            <td>${song.dateAdded}</td>
+            <td>${song.duration}</td>
+        `;
+        row.addEventListener('click', () => playSong(index));
+        songListElem.appendChild(row);
+    });
+}
+
+
+        function playSong(index) {
+            currentSongIndex = index;
+            audioPlayer.src = songs[index].src;
+            songTitle.textContent = songs[index].title;
+            songArtist.textContent = songs[index].artist;
+            songCover.src = songs[index].cover;
+            audioPlayer.play();
+            player.style.display = 'flex';
+            isPlaying = true;
+            playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+        }
+
+        playPauseBtn.addEventListener('click', () => {
+            if (isPlaying) {
+                audioPlayer.pause();
+                playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+            } else {
+                audioPlayer.play();
+                playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            }
+            isPlaying = !isPlaying;
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentSongIndex > 0) {
+                playSong(currentSongIndex - 1);
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (isShuffling) {
+                playSong(Math.floor(Math.random() * songs.length));
+            } else if (currentSongIndex < songs.length - 1) {
+                playSong(currentSongIndex + 1);
+            } else if (isRepeating) {
+                playSong(currentSongIndex);
+            }
+        });
+
+        shuffleBtn.addEventListener('click', () => {
+            isShuffling = !isShuffling;
+            shuffleBtn.style.color = isShuffling ? '#1db954' : 'white';
+        });
+
+        repeatBtn.addEventListener('click', () => {
+            isRepeating = !isRepeating;
+            repeatBtn.style.color = isRepeating ? '#1db954' : 'white';
+        });
+
+        audioPlayer.addEventListener('timeupdate', () => {
+            const currentTime = audioPlayer.currentTime;
+            const duration = audioPlayer.duration;
+            const progressPercent = (currentTime / duration) * 100;
+            progressBar.style.width = `${progressPercent}%`;
+
+            const currentMinutes = Math.floor(currentTime / 60);
+            const currentSeconds = Math.floor(currentTime % 60).toString().padStart(2, '0');
+            const totalMinutes = Math.floor(duration / 60);
+            const totalSeconds = Math.floor(duration % 60).toString().padStart(2, '0');
+
+            currentTimeElem.textContent = `${currentMinutes}:${currentSeconds}`;
+            totalTimeElem.textContent = `${totalMinutes}:${totalSeconds}`;
+        });
+
+        progressBarContainer.addEventListener('click', (e) => {
+            const progressContainerWidth = progressBarContainer.offsetWidth;
+            const clickX = e.offsetX;
+            const duration = audioPlayer.duration;
+
+            audioPlayer.currentTime = (clickX / progressContainerWidth) * duration;
+        });
+
+        volumeSlider.addEventListener('input', (e) => {
+            audioPlayer.volume = e.target.value;
+        });
+
+        // Cargar canciones al iniciar
+        loadSongs();
+    </script>
+
+</body>
+</html>

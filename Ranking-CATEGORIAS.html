@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interfaz de Música</title>
+    <link href="https://fonts.googleapis.com/css2?family=Gotham+Medium:wght@500&family=Gotham+Book:wght@300&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Gotham Book', Arial, sans-serif;
+            background: linear-gradient(to bottom, #000000, #000000);
+            color: white;
+            display: flex;
+            height: 125vh;
+        }
+        
+       .sidebar {
+            width: 360px;
+            height: 100vh;
+            background-color: #000;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+position: fixed;
+        }
+        
+        .upper-section, .lower-section {
+            background-color: #181818;
+            border-radius: 10px;
+            padding: 15px;
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 13px 0;
+            font-size: 14px;
+            cursor: pointer;
+            color: #B3B3B3;
+            transition: color 0.3s ease;
+    width: 250px;
+    height: 50px; 
+        }
+        
+        .menu-item img {
+            width: 50px;
+            height: 50px;
+            border-radius: 4px;
+            margin-right: 15px;
+        }
+
+        .menu-item:hover {
+            color: white;
+        }
+
+        .menu-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            margin: 20px 0 10px;
+            color: #B3B3B3;
+        }
+
+        .search, .library {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            font-size: 16px;
+            color: white;
+        }
+
+        .library .options {
+            display: flex;
+            align-items: center;
+        }
+
+        .library .options button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+width: 100px;
+        }
+
+        .tab {
+            padding: 6px 12px;
+            background-color: #282828;
+            border-radius: 16px;
+            font-size: 12px;
+            cursor: pointer;
+            color: #B3B3B3;
+            transition: background-color 0.3s ease;
+        }
+
+        .tab:hover {
+            background-color: #3c3c3c;
+            color: white;
+        }
+
+     
+        /* Contenedor principal para correr todos los elementos hacia la derecha */
+        .main-container {
+            margin-left: 340px; /* Deja un espacio de 360px en la izquierda */
+
+}
+
+        .charcoal-bar {
+            display: flex;
+            align-items: center;
+            padding: 20px 30px; /* Aumenta el espacio interno */
+            gap: 20px; /* Espacio entre los elementos dentro de la barra superior */
+        }
+
+        .black-arrows {
+            display: flex;
+            gap: 20px; /* Espacio entre las flechas */
+        }
+
+        .black-arrows button {
+            background-color: #000; /* Fondo negro */
+            border: none;
+            color: #fff;
+            padding: 15px; /* Aumenta el tamaño de los botones */
+            border-radius: 50%;
+            cursor: pointer;
+
+        }
+
+        .gray-search {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            background-color: #333; /* Fondo gris oscuro */
+            padding: 15px 20px; /* Aumenta el espacio interno en la barra de búsqueda */
+            border-radius: 25px;
+            margin-right: 10px; /* Espacio a la derecha de la barra de búsqueda */
+width: 530px
+
+
+        }
+
+        .gray-search input {
+            background-color: transparent;
+            border: none;
+            color: #fff;
+            flex: 1;
+            padding-left: 20px; /* Aumenta el espacio interno a la izquierda del input */
+            outline: none;
+            font-size: 16px;
+        }
+
+        .gray-search input::placeholder {
+            color: #ccc; /* Color gris claro */
+        }
+
+        .gray-search button {
+            background-color: transparent;
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .icon-bar {
+            display: flex;
+            align-items: center;
+            gap: 40px; /* Aumenta el espacio entre los iconos */
+margin-left: 50px;
+
+        }
+
+        .icon-bar a {
+            text-decoration: none;
+            color: #fff;
+            
+            padding: 15px 20px; /* Aumenta el espacio interno en los iconos */
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 60px;
+
+ 
+        }
+
+        .icon-bar .white-profile {
+            background-image: url('https://lh3.googleusercontent.com/a/ACg8ocIVXuF5nwG5vcM6_x2EtevDabyzo8WL7uqxfMORQ2yCH0UQBFaN=s96-c-rg-br100'); /* Cambia esta URL por la de tu imagen */
+            background-size: cover;
+            width: 15px; /* Aumenta el tamaño del icono de perfil */
+            height: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+margin-left: -10px;
+
+}
+          .menusss-a {
+            display: flex;
+            align-items: center;
+            padding: 13px 0;
+            font-size: 14px;
+            cursor: pointer;
+            color: #B3B3B3;
+            transition: color 0.3s ease;
+    width: 250px;
+    height: 50px; 
+        }      
+.menusss-a img {
+            width: 50px;
+            height: 50px;
+            border-radius: 40px;
+            margin-right: 15px;
+        }
+        .menusss-a:hover {
+            color: white;
+        }
+
+        .menusss-a-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            margin: 20px 0 10px;
+            color: #B3B3B3;
+        }
+
+
+
+        .container {
+            display: flex; /* Flexbox para alinear los recuadros en fila */
+            gap: 30px; /* Espacio entre recuadros */
+margin-top: 40px;
+margin-left: 90px;
+
+        }
+
+        .artist-box {
+            background: #282828; /* Color fijo del recuadro */
+            padding: 10px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+            cursor: pointer;
+            text-align: center; /* Centrar el texto */
+            width: 100px; /* Ancho fijo del recuadro */
+            color: white; /* Color del texto en el recuadro */
+
+        }
+       .albums {
+            display: flex;
+            gap: 3px; /* Más espacio entre cada álbum */
+
+        }
+
+        .album {
+            text-align: left;
+            width: 180px;
+        }
+
+        .album-mmm{
+            position: relative;
+            border-radius: 5px;
+            overflow: hidden;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            padding: 10px;
+    left: 40px;  /* Mueve a la izquierda */
+    top: -10px;  
+        }
+
+        .album-mmm:hover {
+            background-color: #333; /* Recuadro oscuro que abarca imagen y texto */
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* Sombra */
+        }
+
+        .album-mmm img {
+            width: 100%;
+            height: auto;
+            border-radius: 7px;
+            transition: filter 0.3s ease;
+            position: relative; /* Asegura que el botón se posicione en relación a la imagen */
+        }
+
+        .album-ti {
+            margin-top: 10px;
+            font-size: 14px;
+            padding: 0 10px; /* Espacio a los lados del texto */
+            position: relative;
+            z-index: 2;
+        }
+
+        .play-button {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            background-color: #1DB954;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            cursor: pointer;
+            z-index: 3; /* Asegura que el botón se mantenga encima del recuadro oscuro */
+top: 140px;
+left: 140px; 
+        }
+
+        .play-button img {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Recuadro oscuro en imagen y texto */
+        .album-mmm::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        .album-mmm:hover::before {
+            opacity: 1;
+        }
+
+        .album-mmm:hover img {
+            filter: brightness(50%); /* Efecto en la imagen */
+        }
+
+        .album-mmm:hover .play-button {
+            opacity: 1;
+ 
+    }   
+.titles {
+    font-size: 28px;
+    color: #ffffff;
+    background: #fff;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    margin-left: -580px;  /* Mueve a la izquierda */
+    margin-top: 80px; 
+}
+.title {
+    font-size: 28px;
+    color: #ffffff;
+    background: #fff;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    margin-left: -510px;  /* Mueve a la izquierda */
+    margin-top: 25px; 
+
+}
+
+        .music-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .music-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #2a3d31;
+            border-radius: 10px;
+            padding: 10px;
+            width: 300px;
+            color: white;
+            font-size: 14px;
+            position: relative;
+            transition: background-color 0.3s ease;
+    left: 100px;  /* Mueve a la izquierda */
+    top: 50px;  
+        }
+
+        .music-box img {
+            width: 40px;
+            height: 40px;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .music-box .text {
+            flex-grow: 1;
+        }
+
+        .music-box .playy-button {
+            width: 25px;
+            height: 25px;
+            background-color: #1db954;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            right: 10px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .music-box .playy-button::before {
+            content: '';
+            border-style: solid;
+            border-width: 6px 0 6px 10px;
+            border-color: transparent transparent transparent white;
+        }
+
+        .music-box:hover .playy-button {
+            opacity: 1;
+        }
+
+        .container-ss {
+            display: flex; /* Flexbox para alinear los recuadros en fila */
+            gap: 30px; /* Espacio entre recuadros */
+margin-top: 40px;
+margin-left: 90px;
+
+        }
+
+        .artistt-boxx {
+            background: #282828; /* Color fijo del recuadro */
+            padding: 10px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+            cursor: pointer;
+            text-align: center; /* Centrar el texto */
+            width: 100px; /* Ancho fijo del recuadro */
+            color: white; /* Color del texto en el recuadro */
+
+        }
+       .albumst {
+            display: flex;
+            gap: 3px; /* Más espacio entre cada álbum */
+
+        }
+
+        .albumt {
+            text-align: left;
+            width: 180px;
+
+        }
+
+        .album-mmmt{
+            position: relative;
+            border-radius: 5px;
+            overflow: hidden;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            padding: 10px;
+    left: 35px;  /* Mueve a la izquierda */
+    top: -16px;  
+        }
+
+        .album-mmmt:hover {
+            background-color: #333; /* Recuadro oscuro que abarca imagen y texto */
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* Sombra */
+        }
+
+        .album-mmmt img {
+            width: 100%;
+            height: auto;
+            border-radius: 7px;
+            transition: filter 0.3s ease;
+            position: relative; /* Asegura que el botón se posicione en relación a la imagen */
+        }
+
+        .albumt-ti {
+            margin-top: 10px;
+            font-size: 14px;
+            padding: 0 10px; /* Espacio a los lados del texto */
+            position: relative;
+            z-index: 2;
+        }
+
+        .plays-button {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            background-color: #1DB954;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            cursor: pointer;
+            z-index: 3; /* Asegura que el botón se mantenga encima del recuadro oscuro */
+top: 140px;
+left: 140px; 
+        }
+
+        .plays-button img {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Recuadro oscuro en imagen y texto */
+        .album-mmmt::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        .album-mmmt:hover::before {
+            opacity: 1;
+        }
+
+        .album-mmmt:hover img {
+            filter: brightness(50%); /* Efecto en la imagen */
+        }
+
+        .album-mmmt:hover .plays-button {
+            opacity: 1;
+ 
+    }   
+        .header {
+            font-size: 24px;
+            font-weight: bold;
+            margin-left: 50px;
+        }
+
+        .recuadroos {
+            background: linear-gradient(to bottom, #276271, #000000); /* Gradiente similar al de la imagen */
+            color: white;
+            height: 200px;
+            width: 973px; /* Ancho del recuadro ajustable */
+            margin-left: 360px; /* Espacio a la izquierda */
+            position: relative; /* Necesario para mover el texto dentro */
+margin-left: 18px;
+top: -1640px;
+border-radius: 15px;
+        }
+
+        .tituloos {
+            font-size: 100px; /* Tamaño de la letra ajustable */
+            font-weight: bold;
+            position: absolute; /* Permite mover el texto dentro del recuadro */
+            top: 60px; /* Ajuste vertical del texto */
+            left: 20px; /* Ajuste horizontal del texto */
+ font-family: 'Arial', sans-serif;
+color: white;
+        }
+
+
+        .contenedor {
+            max-width: 1000px;
+            margin: auto; 
+ grid-template-columns: repeat(4, 1fr); /* 4 recuadros por fila */
+            gap: 20px; /* Espacio entre recuadros */
+        }
+
+        h1 {
+            margin-bottom: 20px; 
+    margin-left: -500px; 
+        }
+
+        .recuadros {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 20px;
+    width: 520px; /* Ajusta el ancho del recuadro */
+    height: 165px;
+            grid-template-columns: repeat(4, 1fr); /* 4 recuadros por fila */
+            gap: 20px; /* Espacio entre recuadros */
+ margin-left: -520px;
+margin-top: 10px;
+
+        }
+
+        .recuadro {
+            background-color: #121212;
+            position: relative;
+            border-radius: 10px;
+            padding: 20px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+
+        }
+
+        .recuadro .titulo {
+            font-size: 24px;
+            font-weight: bold;
+            z-index: 2;
+margin-top: -100px;
+position: absolute;
+
+        }
+
+        .recuadro img {
+            position: absolute;
+            right: 10px;
+            bottom: 50px;
+            width: 100px;
+            height: 100px;
+            transform: rotate(25deg)scale(1.2);
+            z-index: 1;
+    top: 60px; 
+    left: 193px; 
+        }
+
+        .podcasts {
+            background-color: #00826F;
+    width: 245px; /* Ajusta el ancho del recuadro */
+    height: 123px;
+        }
+
+        .podcasts-2 {
+            background-color: #8f50df;
+    width: 245px; /* Ajusta el ancho del recuadro */
+    height: 123px;
+        }
+
+
+
+.podcasts-4 {
+            background-color: #a1bb65;
+    width: 245px; /* Ajusta el ancho del recuadro */
+    height: 123px;
+    top: 182px; 
+    left: -307px; 
+        }
+
+        .podcasts-5 {
+            background-color: #82e0aa;
+    width: 245px; /* Ajusta el ancho del recuadro */
+    height: 123px;
+        }
+
+        .podcasts-6 {
+            background-color: #3e94a7;
+    width: 245px; /* Ajusta el ancho del recuadro */
+    height: 123px;
+        }
+
+
+</style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="upper-section">
+            <div class="search">
+      <a href="BUSQUEDA-ARTISTA.html" class="search">Inicio</a>
+            </div>
+     <a href="BUSCAR.html" class="search">Buscar</a>
+        </div>
+        
+        <div class="lower-section">
+            <div class="library">
+                <span>Tu biblioteca</span>
+                <div class="options">
+                    <button>+</button>
+                    <button>→</button>
+                </div>
+            </div>
+            <div class="tabs">
+                <div class="tab">Playlists</div>
+                <div class="tab">Artistas</div>
+                <div class="tab">Álbumes</div>
+            </div>
+            <div class="menu-title">Recientes</div>
+            <div class="menu-item">
+                <img src="https://marcelolanegra.github.io/proyecto-spotifu/images/liked-songs-640.png" alt="Tus me gusta">
+                <div>
+                    <strong>Tus me gusta</strong><br>
+                    <span>Playlist • 23 canciones</span>
+                </div>
+            </div>
+            <div class="menu-item">
+                <img src="file:///C:/Users/JULIANQUINTERO/Downloads/Dise%C3%B1o%20sin%20t%C3%ADtulo%20(8).png" alt="Tus episodios">
+                <div>
+                    <strong>Tus episodios</strong><br>
+                    <span>Episodios guardados y descargados</span>
+                </div>
+            </div>
+            <div class="menusss-a">
+                <img src="https://i.scdn.co/image/ab67616100005174e82c62cc8cf019aecfd71ee8" alt="Soft Pop Hits 2024">
+                <div>
+                    <strong>Feid</strong><br>
+                    <span>Artista</span>
+                </div>
+            </div>
+            <div class="menusss-a">
+                <img src="https://i.scdn.co/image/ab6761610000e5eb3bcef85e105dfc42399ef0ba" alt="Ed Sheeran">
+                <div>
+                    <strong>Ed Sheeran</strong><br>
+                    <span>Artista</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Contenedor principal -->
+    <div class="main-container">
+        <!-- Barra superior -->
+        <div class="charcoal-bar">
+            <!-- Flechas de navegación -->
+            <div class="black-arrows">
+                <button>&larr;</button>
+                <button>&rarr;</button>
+            </div>
+
+            <!-- Barra de búsqueda -->
+            <div class="gray-search">
+                <button>&#128269;</button>
+                <input type="text" placeholder="Buscar" value="">
+
+                <button>&times;</button>
+            </div>
+
+            <!-- Iconos de la parte superior derecha -->
+            <div class="icon-bar">
+                
+                <a href="#"><span>&#128276;</span></a> <!-- Campanita -->
+                <a href="perfil.html" class="white-profile"></a> 
+            </div>
+        </div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+  <div class="music-container">
+        <div class="music-box">
+            <img src="https://marcelolanegra.github.io/proyecto-spotifu/images/liked-songs-640.png" alt="Icono">
+            <div class="text">Tus me gusta</div>
+            <div class="playy-button"></div>
+        </div>
+        <div class="music-box">
+            <img src="file:///C:/Users/JULIANQUINTERO/Downloads/Dise%C3%B1o%20sin%20t%C3%ADtulo%20(8).png" alt="Album">
+            <div class="text">Soundify Studio</div>
+            <div class="playy-button"></div>
+        </div>
+    </div>
+<br>
+<br>
+<h1 class="titles">Rankings destacados</h1>
+    <div class="albums">   
+        <div class="album">
+            <div class="album-mmm">
+                <img src="https://charts-images.scdn.co/assets/locale_en/regional/weekly/region_global_default.jpg" alt="La Llamada">
+                <div class="album-ti"><a href="MIXdiario.html" style="color: white; text-decoration: none;">Top de canciones en Global<br>Tu actualizacion semanal</div>
+                        <div class="play-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+
+        <div class="album">
+            <div class="album-mmm">
+
+                <img src="https://charts-images.scdn.co/assets/locale_en/regional/weekly/region_co_default.jpg" alt="Vete">
+                <div class="album-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">Top de canciones en Colombia<br>Tu actualizacion semanal</div>
+                <div class="play-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="album">
+            <div class="album-mmm">
+
+                <img src="https://charts-images.scdn.co/assets/locale_en/regional/daily/region_global_default.jpg" alt="Vete">
+                <div class="album-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">Top 50 de Global<br>Tu actualizacion diaria de las canciones mas escuchadas</div>
+                <div class="play-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="album">
+            <div class="album-mmm">
+
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgH1vWbFmbjvQwHbiXexEUhu-hOW2jtWN6FdwnnyFhtBLYtlXGt-z3OBFwDxfdYI0Avgk&usqp=CAU" alt="Vete">
+                <div class="album-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">El Top 100 de Colombia<br>Tu actualizacion diaria de las canciones</div>
+                <div class="play-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="album">
+            <div class="album-mmm">
+
+                <img src="https://charts-images.scdn.co/assets/locale_en/viral/daily/region_global_default.jpg" alt="De Farra Con Yeison Jiménez">
+                <div class="album-ti"><a href="https://www.ejemplo.com"  style="color: white; text-decoration: none;">Los 50 mas virales: Global<br>Tu actulizacion diaria</div>
+                <div class="play-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+    </div>
+<h1 class="title">Rankings semanales de temas</h1>
+    <div class="albumst">   
+        <div class="albumt">
+            <div class="album-mmmt">
+                <img src="https://charts-images.scdn.co/assets/locale_en/regional/weekly/region_global_default.jpg" alt="La Llamada">
+                <div class="albumt-ti"><a href="MIXdiario.html" style="color: white; text-decoration: none;">Top de canciones en Global<br>Tu actualizacion semanal</div>
+                        <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIIcAt8qTpvZkWGJ2OWObIjWeTIKNRnCmSU_JOBXpJYnjqK7BwuKmRGBqNEwhXIatwX9I&usqp=CAU" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">Top de canciones en Canada<br>Tu actualizacion semanal</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQd40SMxvIdYwnn02lMshJA_04VPO4SLJehuaJgcMwpxQS9QCApw0lpdkPzYuLuOKwMtnY&usqp=CAU" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">Top de canciones de Alemania<br>Tu actualizacion semanal</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+</div>
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToSgLAIHUxMI3hMiTPc2ZpqyF9VJbUEVlQVIGKhi7T40WwPTUsYDcju3DHu2LTfX3OU0s&usqp=CAU" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">Top de canciones de Francia<br>Tu actualizacion semanal</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://charts-images.scdn.co/assets/locale_en/regional/weekly/region_es_default.jpg" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">Top de canciones de España<br>Tu actualizacion semanal</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+      </div>
+<h1 class="title">Rankings diarios de canciones</h1>
+    <div class="albumst">   
+        <div class="albumt">
+            <div class="album-mmmt">
+                <img src="https://charts-images.scdn.co/assets/locale_en/regional/daily/region_global_default.jpg" alt="La Llamada">
+                <div class="albumt-ti"><a href="MIXdiario.html" style="color: white; text-decoration: none;">El Top 50 de Global<br>Tu actualizacion diaria de las canciones</div>
+                        <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7D8lj-Dh6N7wjOtPCSAjPR0-GvoHIIimBhnewov9M8IHY6cvFqTrsAU5EvD-pKRwglV0&usqp=CAU" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">El Top 50 de Argentina<br>Tu actualizacion diaria</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://charts-images.scdn.co/assets/locale_en/regional/daily/region_mx_default.jpg" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">El Top 50 de Mexico<br>Tu actualizacion diaria de las canciones</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+</div>
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://charts-images.scdn.co/assets/locale_en/regional/daily/region_br_default.jpg" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">El Top 50 de Brazil<br>Tu actualizacion diaria de las canciones</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://charts-images.scdn.co/assets/locale_en/regional/daily/region_us_default.jpg" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">El Top 50 de USA<br>Tu actualizacion diaria de las canciones</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+      </div>
+<h1 class="title">Rankings diarios virales</h1>
+    <div class="albumst">   
+        <div class="albumt">
+            <div class="album-mmmt">
+                <img src="https://charts-images.scdn.co/assets/locale_en/viral/daily/region_global_default.jpg" alt="La Llamada">
+                <div class="albumt-ti"><a href="MIXdiario.html" style="color: white; text-decoration: none;">Los 50 mas virales: Global<br>Tu actulizacion diaria</div>
+                        <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://charts-images.scdn.co/assets/locale_en/viral/daily/region_br_default.jpg" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">Los 50 mas virales: Brazil<br>Tu actulizacion diaria</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://charts-images.scdn.co/assets/locale_en/viral/daily/region_us_default.jpg" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">Los 50 mas virales: USA<br>Tu actulizacion diaria</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+</div>
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://charts-images.scdn.co/assets/locale_en/viral/daily/region_mx_default.jpg" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">Los 50 mas virales: Mexico<br>Tu actulizacion diaria</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://charts-images.scdn.co/assets/locale_en/viral/daily/region_co_default.jpg" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">Los 50 mas virales: Colombia<br>Tu actulizacion diaria</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+      </div>
+    <div class="recuadroos">
+        <div class="tituloos">
+            Ranking
+        </div>
+    </div>
+
+</body>
+</html>

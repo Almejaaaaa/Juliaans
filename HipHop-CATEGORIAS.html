@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interfaz de Música</title>
+    <link href="https://fonts.googleapis.com/css2?family=Gotham+Medium:wght@500&family=Gotham+Book:wght@300&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Gotham Book', Arial, sans-serif;
+            background: linear-gradient(to bottom, #000000, #000000);
+            color: white;
+            display: flex;
+            height: 125vh;
+        }
+        
+       .sidebar {
+            width: 360px;
+            height: 100vh;
+            background-color: #000;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+position: fixed;
+        }
+        
+        .upper-section, .lower-section {
+            background-color: #181818;
+            border-radius: 10px;
+            padding: 15px;
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 13px 0;
+            font-size: 14px;
+            cursor: pointer;
+            color: #B3B3B3;
+            transition: color 0.3s ease;
+    width: 250px;
+    height: 50px; 
+        }
+        
+        .menu-item img {
+            width: 50px;
+            height: 50px;
+            border-radius: 4px;
+            margin-right: 15px;
+        }
+
+        .menu-item:hover {
+            color: white;
+        }
+
+        .menu-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            margin: 20px 0 10px;
+            color: #B3B3B3;
+        }
+
+        .search, .library {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            font-size: 16px;
+            color: white;
+        }
+
+        .library .options {
+            display: flex;
+            align-items: center;
+        }
+
+        .library .options button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+width: 100px;
+        }
+
+        .tab {
+            padding: 6px 12px;
+            background-color: #282828;
+            border-radius: 16px;
+            font-size: 12px;
+            cursor: pointer;
+            color: #B3B3B3;
+            transition: background-color 0.3s ease;
+        }
+
+        .tab:hover {
+            background-color: #3c3c3c;
+            color: white;
+        }
+
+     
+        /* Contenedor principal para correr todos los elementos hacia la derecha */
+        .main-container {
+            margin-left: 340px; /* Deja un espacio de 360px en la izquierda */
+
+}
+
+        .charcoal-bar {
+            display: flex;
+            align-items: center;
+            padding: 20px 30px; /* Aumenta el espacio interno */
+            gap: 20px; /* Espacio entre los elementos dentro de la barra superior */
+        }
+
+        .black-arrows {
+            display: flex;
+            gap: 20px; /* Espacio entre las flechas */
+        }
+
+        .black-arrows button {
+            background-color: #000; /* Fondo negro */
+            border: none;
+            color: #fff;
+            padding: 15px; /* Aumenta el tamaño de los botones */
+            border-radius: 50%;
+            cursor: pointer;
+
+        }
+
+        .gray-search {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            background-color: #333; /* Fondo gris oscuro */
+            padding: 15px 20px; /* Aumenta el espacio interno en la barra de búsqueda */
+            border-radius: 25px;
+            margin-right: 10px; /* Espacio a la derecha de la barra de búsqueda */
+width: 530px
+
+
+        }
+
+        .gray-search input {
+            background-color: transparent;
+            border: none;
+            color: #fff;
+            flex: 1;
+            padding-left: 20px; /* Aumenta el espacio interno a la izquierda del input */
+            outline: none;
+            font-size: 16px;
+        }
+
+        .gray-search input::placeholder {
+            color: #ccc; /* Color gris claro */
+        }
+
+        .gray-search button {
+            background-color: transparent;
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .icon-bar {
+            display: flex;
+            align-items: center;
+            gap: 40px; /* Aumenta el espacio entre los iconos */
+margin-left: 50px;
+
+        }
+
+        .icon-bar a {
+            text-decoration: none;
+            color: #fff;
+            
+            padding: 15px 20px; /* Aumenta el espacio interno en los iconos */
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 60px;
+
+ 
+        }
+
+        .icon-bar .white-profile {
+            background-image: url('https://lh3.googleusercontent.com/a/ACg8ocIVXuF5nwG5vcM6_x2EtevDabyzo8WL7uqxfMORQ2yCH0UQBFaN=s96-c-rg-br100'); /* Cambia esta URL por la de tu imagen */
+            background-size: cover;
+            width: 15px; /* Aumenta el tamaño del icono de perfil */
+            height: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+margin-left: -10px;
+
+}
+          .menusss-a {
+            display: flex;
+            align-items: center;
+            padding: 13px 0;
+            font-size: 14px;
+            cursor: pointer;
+            color: #B3B3B3;
+            transition: color 0.3s ease;
+    width: 250px;
+    height: 50px; 
+        }      
+.menusss-a img {
+            width: 50px;
+            height: 50px;
+            border-radius: 40px;
+            margin-right: 15px;
+        }
+        .menusss-a:hover {
+            color: white;
+        }
+
+        .menusss-a-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            margin: 20px 0 10px;
+            color: #B3B3B3;
+        }
+
+
+
+        .container {
+            display: flex; /* Flexbox para alinear los recuadros en fila */
+            gap: 30px; /* Espacio entre recuadros */
+margin-top: 40px;
+margin-left: 90px;
+
+        }
+
+        .artist-box {
+            background: #282828; /* Color fijo del recuadro */
+            padding: 10px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+            cursor: pointer;
+            text-align: center; /* Centrar el texto */
+            width: 100px; /* Ancho fijo del recuadro */
+            color: white; /* Color del texto en el recuadro */
+
+        }
+       .albums {
+            display: flex;
+            gap: 3px; /* Más espacio entre cada álbum */
+
+        }
+
+        .album {
+            text-align: left;
+            width: 180px;
+        }
+
+        .album-mmm{
+            position: relative;
+            border-radius: 5px;
+            overflow: hidden;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            padding: 10px;
+    left: 40px;  /* Mueve a la izquierda */
+    top: -10px;  
+        }
+
+        .album-mmm:hover {
+            background-color: #333; /* Recuadro oscuro que abarca imagen y texto */
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* Sombra */
+        }
+
+        .album-mmm img {
+            width: 100%;
+            height: auto;
+            border-radius: 7px;
+            transition: filter 0.3s ease;
+            position: relative; /* Asegura que el botón se posicione en relación a la imagen */
+        }
+
+        .album-ti {
+            margin-top: 10px;
+            font-size: 14px;
+            padding: 0 10px; /* Espacio a los lados del texto */
+            position: relative;
+            z-index: 2;
+        }
+
+        .play-button {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            background-color: #1DB954;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            cursor: pointer;
+            z-index: 3; /* Asegura que el botón se mantenga encima del recuadro oscuro */
+top: 140px;
+left: 140px; 
+        }
+
+        .play-button img {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Recuadro oscuro en imagen y texto */
+        .album-mmm::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        .album-mmm:hover::before {
+            opacity: 1;
+        }
+
+        .album-mmm:hover img {
+            filter: brightness(50%); /* Efecto en la imagen */
+        }
+
+        .album-mmm:hover .play-button {
+            opacity: 1;
+ 
+    }   
+.titless {
+    font-size: 28px;
+    color: #ffffff;
+    background: #fff;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    margin-left: -500px;  /* Mueve a la izquierda */
+    margin-top: 80px; 
+}
+.title {
+    font-size: 28px;
+    color: #ffffff;
+    background: #fff;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    margin-left: -660px;  /* Mueve a la izquierda */
+    margin-top: 25px; 
+
+}
+.titlel {
+    font-size: 28px;
+    color: #ffffff;
+    background: #fff;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    margin-left: -600px;  /* Mueve a la izquierda */
+    margin-top: 25px; 
+
+}
+.titlen {
+    font-size: 28px;
+    color: #ffffff;
+    background: #fff;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    margin-left: -550px;  /* Mueve a la izquierda */
+    margin-top: 25px; 
+
+}
+.titlem {
+    font-size: 28px;
+    color: #ffffff;
+    background: #fff;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    margin-left: -390px;  /* Mueve a la izquierda */
+    margin-top: 25px; 
+
+}
+.titlex {
+    font-size: 28px;
+    color: #ffffff;
+    background: #fff;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    margin-left: -390px;  /* Mueve a la izquierda */
+    margin-top: 25px; 
+
+}
+.titleh {
+    font-size: 28px;
+    color: #ffffff;
+    background: #fff;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    margin-left: -760px;  /* Mueve a la izquierda */
+    margin-top: 25px; 
+
+}
+.titles {
+    font-size: 28px;
+    color: #ffffff;
+    background: #fff;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    margin-left: -600px;  /* Mueve a la izquierda */
+    margin-top: 25px; 
+
+}
+
+        .music-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .music-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #2a3d31;
+            border-radius: 10px;
+            padding: 10px;
+            width: 300px;
+            color: white;
+            font-size: 14px;
+            position: relative;
+            transition: background-color 0.3s ease;
+    left: 100px;  /* Mueve a la izquierda */
+    top: 50px;  
+        }
+
+        .music-box img {
+            width: 40px;
+            height: 40px;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .music-box .text {
+            flex-grow: 1;
+        }
+
+        .music-box .playy-button {
+            width: 25px;
+            height: 25px;
+            background-color: #1db954;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            right: 10px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .music-box .playy-button::before {
+            content: '';
+            border-style: solid;
+            border-width: 6px 0 6px 10px;
+            border-color: transparent transparent transparent white;
+        }
+
+        .music-box:hover .playy-button {
+            opacity: 1;
+        }
+
+        .container-ss {
+            display: flex; /* Flexbox para alinear los recuadros en fila */
+            gap: 30px; /* Espacio entre recuadros */
+margin-top: 40px;
+margin-left: 90px;
+
+        }
+
+        .artistt-boxx {
+            background: #282828; /* Color fijo del recuadro */
+            padding: 10px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+            cursor: pointer;
+            text-align: center; /* Centrar el texto */
+            width: 100px; /* Ancho fijo del recuadro */
+            color: white; /* Color del texto en el recuadro */
+
+        }
+       .albumst {
+            display: flex;
+            gap: 3px; /* Más espacio entre cada álbum */
+
+        }
+
+        .albumt {
+            text-align: left;
+            width: 180px;
+
+        }
+
+        .album-mmmt{
+            position: relative;
+            border-radius: 5px;
+            overflow: hidden;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            padding: 10px;
+    left: 35px;  /* Mueve a la izquierda */
+    top: -16px;  
+        }
+
+        .album-mmmt:hover {
+            background-color: #333; /* Recuadro oscuro que abarca imagen y texto */
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* Sombra */
+        }
+
+        .album-mmmt img {
+            width: 100%;
+            height: auto;
+            border-radius: 7px;
+            transition: filter 0.3s ease;
+            position: relative; /* Asegura que el botón se posicione en relación a la imagen */
+        }
+
+        .albumt-ti {
+            margin-top: 10px;
+            font-size: 14px;
+            padding: 0 10px; /* Espacio a los lados del texto */
+            position: relative;
+            z-index: 2;
+        }
+
+        .plays-button {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            background-color: #1DB954;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            cursor: pointer;
+            z-index: 3; /* Asegura que el botón se mantenga encima del recuadro oscuro */
+top: 140px;
+left: 140px; 
+        }
+
+        .plays-button img {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Recuadro oscuro en imagen y texto */
+        .album-mmmt::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        .album-mmmt:hover::before {
+            opacity: 1;
+        }
+
+        .album-mmmt:hover img {
+            filter: brightness(50%); /* Efecto en la imagen */
+        }
+
+        .album-mmmt:hover .plays-button {
+            opacity: 1;
+ 
+    }   
+        .header {
+            font-size: 24px;
+            font-weight: bold;
+            margin-left: 50px;
+        }
+
+        .recuadroos {
+            background: linear-gradient(to bottom, #646464, #000000); /* Gradiente similar al de la imagen */
+            color: white;
+            height: 200px;
+            width: 973px; /* Ancho del recuadro ajustable */
+            margin-left: 360px; /* Espacio a la izquierda */
+            position: relative; /* Necesario para mover el texto dentro */
+margin-left: 18px;
+top: -2995px;
+border-radius: 15px;
+        }
+
+        .tituloos {
+            font-size: 100px; /* Tamaño de la letra ajustable */
+            font-weight: bold;
+            position: absolute; /* Permite mover el texto dentro del recuadro */
+            top: 60px; /* Ajuste vertical del texto */
+            left: 20px; /* Ajuste horizontal del texto */
+ font-family: 'Arial', sans-serif;
+color: white;
+        }
+
+
+        .contenedor {
+            max-width: 1000px;
+            margin: auto; 
+ grid-template-columns: repeat(4, 1fr); /* 4 recuadros por fila */
+            gap: 20px; /* Espacio entre recuadros */
+        }
+
+        h1 {
+            margin-bottom: 20px; 
+    margin-left: -500px; 
+        }
+
+        .recuadros {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 20px;
+    width: 520px; /* Ajusta el ancho del recuadro */
+    height: 165px;
+            grid-template-columns: repeat(4, 1fr); /* 4 recuadros por fila */
+            gap: 20px; /* Espacio entre recuadros */
+ margin-left: -520px;
+margin-top: 10px;
+
+        }
+
+        .recuadro {
+            background-color: #121212;
+            position: relative;
+            border-radius: 10px;
+            padding: 20px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+
+        }
+
+        .recuadro .titulo {
+            font-size: 24px;
+            font-weight: bold;
+            z-index: 2;
+margin-top: -100px;
+position: absolute;
+
+        }
+
+        .recuadro img {
+            position: absolute;
+            right: 10px;
+            bottom: 50px;
+            width: 100px;
+            height: 100px;
+            transform: rotate(25deg)scale(1.2);
+            z-index: 1;
+    top: 60px; 
+    left: 193px; 
+        }
+
+        .podcasts {
+            background-color: #00826F;
+    width: 245px; /* Ajusta el ancho del recuadro */
+    height: 123px;
+        }
+
+        .podcasts-2 {
+            background-color: #8f50df;
+    width: 245px; /* Ajusta el ancho del recuadro */
+    height: 123px;
+        }
+
+
+
+.podcasts-4 {
+            background-color: #a1bb65;
+    width: 245px; /* Ajusta el ancho del recuadro */
+    height: 123px;
+    top: 182px; 
+    left: -307px; 
+        }
+
+        .podcasts-5 {
+            background-color: #82e0aa;
+    width: 245px; /* Ajusta el ancho del recuadro */
+    height: 123px;
+        }
+
+        .podcasts-6 {
+            background-color: #3e94a7;
+    width: 245px; /* Ajusta el ancho del recuadro */
+    height: 123px;
+        }
+
+
+</style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="upper-section">
+            <div class="search">
+      <a href="BUSQUEDA-ARTISTA.html" class="search">Inicio</a>
+            </div>
+     <a href="BUSCAR.html" class="search">Buscar</a>
+        </div>
+        
+        <div class="lower-section">
+            <div class="library">
+                <span>Tu biblioteca</span>
+                <div class="options">
+                    <button>+</button>
+                    <button>→</button>
+                </div>
+            </div>
+            <div class="tabs">
+                <div class="tab">Playlists</div>
+                <div class="tab">Artistas</div>
+                <div class="tab">Álbumes</div>
+            </div>
+            <div class="menu-title">Recientes</div>
+            <div class="menu-item">
+                <img src="https://marcelolanegra.github.io/proyecto-spotifu/images/liked-songs-640.png" alt="Tus me gusta">
+                <div>
+                    <strong>Tus me gusta</strong><br>
+                    <span>Playlist • 23 canciones</span>
+                </div>
+            </div>
+            <div class="menu-item">
+                <img src="file:///C:/Users/JULIANQUINTERO/Downloads/Dise%C3%B1o%20sin%20t%C3%ADtulo%20(8).png" alt="Tus episodios">
+                <div>
+                    <strong>Tus episodios</strong><br>
+                    <span>Episodios guardados y descargados</span>
+                </div>
+            </div>
+            <div class="menusss-a">
+                <img src="https://i.scdn.co/image/ab67616100005174e82c62cc8cf019aecfd71ee8" alt="Soft Pop Hits 2024">
+                <div>
+                    <strong>Feid</strong><br>
+                    <span>Artista</span>
+                </div>
+            </div>
+            <div class="menusss-a">
+                <img src="https://i.scdn.co/image/ab6761610000e5eb3bcef85e105dfc42399ef0ba" alt="Ed Sheeran">
+                <div>
+                    <strong>Ed Sheeran</strong><br>
+                    <span>Artista</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Contenedor principal -->
+    <div class="main-container">
+        <!-- Barra superior -->
+        <div class="charcoal-bar">
+            <!-- Flechas de navegación -->
+            <div class="black-arrows">
+                <button>&larr;</button>
+                <button>&rarr;</button>
+            </div>
+
+            <!-- Barra de búsqueda -->
+            <div class="gray-search">
+                <button>&#128269;</button>
+                <input type="text" placeholder="Buscar" value="">
+
+                <button>&times;</button>
+            </div>
+
+            <!-- Iconos de la parte superior derecha -->
+            <div class="icon-bar">
+                
+                <a href="#"><span>&#128276;</span></a> <!-- Campanita -->
+                <a href="perfil.html" class="white-profile"></a> 
+            </div>
+        </div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+  <div class="music-container">
+        <div class="music-box">
+            <img src="https://marcelolanegra.github.io/proyecto-spotifu/images/liked-songs-640.png" alt="Icono">
+            <div class="text">Hip-Hop en todo el mundo</div>
+            <div class="playy-button"></div>
+        </div>
+        <div class="music-box">
+            <img src="file:///C:/Users/JULIANQUINTERO/Downloads/Dise%C3%B1o%20sin%20t%C3%ADtulo%20(8).png" alt="Album">
+            <div class="text">Soundify Studio</div>
+            <div class="playy-button"></div>
+        </div>
+    </div>
+<br>
+<br>
+<h1 class="titless">Playlists populares de hip hop</h1>
+    <div class="albums">   
+        <div class="album">
+            <div class="album-mmm">
+                <img src="https://i.scdn.co/image/ab67706f00000002f286a7bd067fae6517bd44ed" alt="La Llamada">
+                <div class="album-ti"><a href="PLAYLIST-HIP-HOP-1.html" style="color: white; text-decoration: none;">Trap viejito<br>palos de ayer, clásico para siempre</div>
+                        <div class="play-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+
+        <div class="album">
+            <div class="album-mmm">
+
+                <img src="https://i.scdn.co/image/ab67706f000000028908106e49cde03e6d67073e" alt="Vete">
+                <div class="album-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">I L ove My '90s Hip-Hop<br>Real rap music</div>
+                <div class="play-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="album">
+            <div class="album-mmm">
+
+                <img src="https://i.scdn.co/image/ab67706f00000002adf954481fe2782c6f4e4b95" alt="Vete">
+                <div class="album-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">RAPública de Colombia<br>Colombia  es Rap y Hip-Hop</div>
+                <div class="play-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="album">
+            <div class="album-mmm">
+
+                <img src="https://i.scdn.co/image/ab67706f00000002ed2be7c24888b51916f433ff" alt="Vete">
+                <div class="album-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">Parchadito<br>Dosis musical para disfrutar el momento</div>
+                <div class="play-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="album">
+            <div class="album-mmm">
+
+                <img src="https://i.scdn.co/image/ab67706f00000002d9290c279dcd8c8ffb7d2a4b" alt="De Farra Con Yeison Jiménez">
+                <div class="album-ti"><a href="https://www.ejemplo.com"  style="color: white; text-decoration: none;">TRAPPERZ<br>Éxitos del Trap Latino Foto: JHAYCO.</div>
+                <div class="play-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+    </div>
+<h1 class="title">Contenido clásico</h1>
+    <div class="albumst">   
+        <div class="albumt">
+            <div class="album-mmmt">
+                <img src="https://i.scdn.co/image/ab67706f0000000203d51553bcf83cc4bae6989f" alt="La Llamada">
+                <div class="albumt-ti"><a href="MIXdiario.html" style="color: white; text-decoration: none;">Gold School<br>Talking it way back! cover: The Notorious B.I.G.</div>
+                        <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://i.scdn.co/image/ab67706f000000028908106e49cde03e6d67073e" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">I L ove My '90s Hip-Hop<br>Real rap music</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://i.scdn.co/image/ab67706f00000002b5270687c91f3803e82eaf6e" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">Down South Classics<br>The south got something to say. Cover:Project Pat</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://i.scdn.co/image/ab67706f0000000250567a90fac8b82783f7d55a" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">West Coast Classics<br>The best side! cover:213</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://i.scdn.co/image/ab67706f00000002d5b51fcfd90aa9d4cc07127f" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">I Love My East Coast Classics<br>Where it all started. Cover: Jadakiss</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+</div>
+<h1 class="titlel">Mujeres en el hip-hop</h1>
+    <div class="albumst">   
+        <div class="albumt">
+            <div class="album-mmmt">
+                <img src="https://i.scdn.co/image/ab67706f00000002902a76b193b0f75fdc80df67" alt="La Llamada">
+                <div class="albumt-ti"><a href="MIXdiario.html" style="color: white; text-decoration: none;">Feelin' Myself<br>The hip-hop playlist that's a whole mood.</div>
+                        <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://i.scdn.co/image/ab67706f000000020da26de4bf40bb27f9c36456" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">Pressure<br>Real Rap. All Pressure. Cover:Anycia</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://i.scdn.co/image/ab67706f000000028f0ca062feb30f54e208a936" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">Door Knockers<br>Classics from traiblazing women in hip-hop.</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYz8GfNzSoZ7yTGCtyV7YV1ObsUxIxwqwblg&s" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">This Is Nicki Minaj<br>This Is Ncki Minaj. Los temas especiales</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaHXoJvmCvfV0hQY-A_uUH0j0G0ZgQqMBbsw&s" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">This Is Cardi B<br>This Is Cardi B. los temas especiales. todo en uno</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+</div>
+<h1 class="titlen">Hip hop en todo el mundo</h1>
+    <div class="albumst">   
+        <div class="albumt">
+            <div class="album-mmmt">
+                <img src="https://i.scdn.co/image/ab67706f0000000201d8bed1765cca7c219df969" alt="La Llamada">
+                <div class="albumt-ti"><a href="MIXdiario.html" style="color: white; text-decoration: none;">Global Hip-Hop<br>New and trending hip-hop from around the world</div>
+                        <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://i.scdn.co/image/ab67706f000000020fc8818894003420cf7a7b93" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">Northern Bars<br>The coldest sounds in hip-hop, coming out of</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://i.scdn.co/image/ab67706f000000026447858f8f3bded13a34fd96" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">Rap UK<br>The Best of Hip-Hop, Rap and Drill from the UK</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://i.scdn.co/image/ab67706f00000002a33c286d76c2ca563b61244b" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">PVCHLNRS<br>Tiakola au top de la premiere playlist de rap</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://i.scdn.co/image/ab67706f0000000266ad9a0217c189b740838498" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">Plus Ultra<br>Shiva in cover della playlist urban piu grande in Italia</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+</div>
+<h1 class="titlem">Los raperos+escuchados en Soundify</h1>
+    <div class="albumst">   
+        <div class="albumt">
+            <div class="album-mmmt">
+                <img src="https://i.scdn.co/image/ab67706f00000002065bd1e707552ddd2a6878b7" alt="La Llamada">
+                <div class="albumt-ti"><a href="MIXdiario.html" style="color: white; text-decoration: none;">Most Streamed Rap Song on Spotify<br>Marking hip-hops's 50th aniversary</div>
+                        <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1ggFGAmrE8tUVL2rML2bst5tUKjq5qfHEAw&s" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">This Is Drake<br>Hear all of Drake's biggest and best hits in one</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://i.pinimg.com/474x/13/8e/14/138e142f343a05e9df69154f7bc0795a.jpg" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">This Is Eminem<br>This Is Eminem. Los esenciales, todos en una..</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://thisis-images.spotifycdn.com/37i9dQZF1DZ06evO3nMr04-default.jpg" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">This Is Kanye West<br>This Is Kanye West. Los temas esenciales, todos..</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://thisis-images.spotifycdn.com/37i9dQZF1DZ06evO0AnZXW-default.jpg" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">This Is XXXTENTACION<br>This Is xxxtentacion. los temas especiales.</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+</div>
+<h1 class="titlex">Los álbumes de rap más escuchados</h1>
+    <div class="albumst">   
+        <div class="albumt">
+            <div class="album-mmmt">
+                <img src="https://i.scdn.co/image/ab67616d0000b273806c160566580d6335d1f16c" alt="La Llamada">
+                <div class="albumt-ti"><a href="MIXdiario.html" style="color: white; text-decoration: none;">?<br>XXXTENTACION</div>
+                        <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://i.scdn.co/image/ab67616d0000b273f907de96b9a4fbc04accc0d5" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">Scorpion<br>Drake</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://i.scdn.co/image/ab67616d0000b27382e3e6968e73ec00a9f7861b" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">Views<br>Drake</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://i.scdn.co/image/ab67616d0000b273f7db43292a6a99b21b51d5b4" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">Goodbye & Good Riddance<br>Juice WRLD</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://i.scdn.co/image/ab67616d0000b273072e9faef2ef7b6db63834a3" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">ASTROWORLD<br>Travis Scott</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+</div>
+<h1 class="titleh">Rap latino</h1>
+    <div class="albumst">   
+        <div class="albumt">
+            <div class="album-mmmt">
+                <img src="https://i.scdn.co/image/ab67706f00000002556ec53dec9ca614dc497980" alt="La Llamada">
+                <div class="albumt-ti"><a href="MIXdiario.html" style="color: white; text-decoration: none;">Rap en Español<br>Hip-Hop con Ñ, aqui lxs que dominan el juego</div>
+                        <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://i.scdn.co/image/ab67706f000000029f4138076b7558752d78728c" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">Arena Hip-Hop<br>Aqui vive el hip-hop mexicano. Dharius..</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://i.scdn.co/image/ab67706f00000002920efe5842da7a1aa5cb9974" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">Los Gallos<br>Estas son las grandes voces del Hip Hop..</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://i.scdn.co/image/ab67706f0000000211f733eef34ea889932e3fdc" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">Hip Hop Argento<br>Rimas argentinas. Foto: Bardero</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://i.scdn.co/image/ab67706f0000000232b0646e79ef87ef0f2b91db" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">Rap Chileno<br>La casa de lxs MC´s Foto: Portavoz..</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+</div>
+<h1 class="titles">La crema colombiana</h1>
+    <div class="albumst">   
+        <div class="albumt">
+            <div class="album-mmmt">
+                <img src="https://i.scdn.co/image/ab67706f00000002e96925222aa308c344d5935a" alt="La Llamada">
+                <div class="albumt-ti"><a href="MIXdiario.html" style="color: white; text-decoration: none;">Red Bull Batalla<br>Aczino con el hat-trick: campeon internaciona..</div>
+                        <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSL9XQyLVsa6QeGrUtpNfEGe4qcEW-A9UP4ag&s" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">This Is Alcolirycoz<br>This Is Alcolirycoz. Los Temas especiales..</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://i.scdn.co/image/ab67706f00000002920efe5842da7a1aa5cb9974" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">Los Gallos<br>Estas son las grandes voces del Hip Hop..</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://i.scdn.co/image/ab67706f00000002c6236242a1892fcb867d13ee" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">RAPública de Colombia<br>Colombia  es Rap y Hip-Hop</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://thisis-images.spotifycdn.com/37i9dQZF1DZ06evO3wTpeB-default.jpg" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">This Is Ali Aka Mind<br>This Is Ali Aka Mind. Los temas especiales..</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+</div>
+    <div class="recuadroos">
+        <div class="tituloos">
+            Hip Hop
+        </div>
+    </div>
+<br>
+<br>
+<br>
+
+
+
+</body>
+</html>

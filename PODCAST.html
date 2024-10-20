@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interfaz de Música</title>
+    <link href="https://fonts.googleapis.com/css2?family=Gotham+Medium:wght@500&family=Gotham+Book:wght@300&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Gotham Book', Arial, sans-serif;
+            background: linear-gradient(to bottom, #000000, #000000);
+            color: white;
+            display: flex;
+            height: 125vh;
+        }
+        
+       .sidebar {
+            width: 360px;
+            height: 100vh;
+            background-color: #000;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+position: fixed;
+        }
+        
+        .upper-section, .lower-section {
+            background-color: #181818;
+            border-radius: 10px;
+            padding: 15px;
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 13px 0;
+            font-size: 14px;
+            cursor: pointer;
+            color: #B3B3B3;
+            transition: color 0.3s ease;
+    width: 250px;
+    height: 50px; 
+        }
+        
+        .menu-item img {
+            width: 50px;
+            height: 50px;
+            border-radius: 4px;
+            margin-right: 15px;
+        }
+
+        .menu-item:hover {
+            color: white;
+        }
+
+        .menu-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            margin: 20px 0 10px;
+            color: #B3B3B3;
+        }
+
+        .search, .library {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            font-size: 16px;
+            color: white;
+        }
+
+        .library .options {
+            display: flex;
+            align-items: center;
+        }
+
+        .library .options button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+width: 100px;
+        }
+
+        .tab {
+            padding: 6px 12px;
+            background-color: #282828;
+            border-radius: 16px;
+            font-size: 12px;
+            cursor: pointer;
+            color: #B3B3B3;
+            transition: background-color 0.3s ease;
+        }
+
+        .tab:hover {
+            background-color: #3c3c3c;
+            color: white;
+        }
+
+     
+        /* Contenedor principal para correr todos los elementos hacia la derecha */
+        .main-container {
+            margin-left: 340px; /* Deja un espacio de 360px en la izquierda */
+
+}
+
+        .charcoal-bar {
+            display: flex;
+            align-items: center;
+            padding: 20px 30px; /* Aumenta el espacio interno */
+            gap: 20px; /* Espacio entre los elementos dentro de la barra superior */
+        }
+
+        .black-arrows {
+            display: flex;
+            gap: 20px; /* Espacio entre las flechas */
+        }
+
+        .black-arrows button {
+            background-color: #000; /* Fondo negro */
+            border: none;
+            color: #fff;
+            padding: 15px; /* Aumenta el tamaño de los botones */
+            border-radius: 50%;
+            cursor: pointer;
+
+        }
+
+        .gray-search {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            background-color: #333; /* Fondo gris oscuro */
+            padding: 15px 20px; /* Aumenta el espacio interno en la barra de búsqueda */
+            border-radius: 25px;
+            margin-right: 10px; /* Espacio a la derecha de la barra de búsqueda */
+width: 530px
+
+
+        }
+
+        .gray-search input {
+            background-color: transparent;
+            border: none;
+            color: #fff;
+            flex: 1;
+            padding-left: 20px; /* Aumenta el espacio interno a la izquierda del input */
+            outline: none;
+            font-size: 16px;
+        }
+
+        .gray-search input::placeholder {
+            color: #ccc; /* Color gris claro */
+        }
+
+        .gray-search button {
+            background-color: transparent;
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .icon-bar {
+            display: flex;
+            align-items: center;
+            gap: 40px; /* Aumenta el espacio entre los iconos */
+margin-left: 50px;
+
+        }
+
+        .icon-bar a {
+            text-decoration: none;
+            color: #fff;
+            
+            padding: 15px 20px; /* Aumenta el espacio interno en los iconos */
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 60px;
+
+ 
+        }
+
+        .icon-bar .white-profile {
+            background-image: url('https://lh3.googleusercontent.com/a/ACg8ocIVXuF5nwG5vcM6_x2EtevDabyzo8WL7uqxfMORQ2yCH0UQBFaN=s96-c-rg-br100'); /* Cambia esta URL por la de tu imagen */
+            background-size: cover;
+            width: 15px; /* Aumenta el tamaño del icono de perfil */
+            height: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+margin-left: -10px;
+
+}
+          .menusss-a {
+            display: flex;
+            align-items: center;
+            padding: 13px 0;
+            font-size: 14px;
+            cursor: pointer;
+            color: #B3B3B3;
+            transition: color 0.3s ease;
+    width: 250px;
+    height: 50px; 
+        }      
+.menusss-a img {
+            width: 50px;
+            height: 50px;
+            border-radius: 40px;
+            margin-right: 15px;
+        }
+        .menusss-a:hover {
+            color: white;
+        }
+
+        .menusss-a-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            margin: 20px 0 10px;
+            color: #B3B3B3;
+        }
+
+
+
+        .container {
+            display: flex; /* Flexbox para alinear los recuadros en fila */
+            gap: 30px; /* Espacio entre recuadros */
+margin-top: 40px;
+margin-left: 90px;
+
+        }
+
+        .artist-box {
+            background: #282828; /* Color fijo del recuadro */
+            padding: 10px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+            cursor: pointer;
+            text-align: center; /* Centrar el texto */
+            width: 100px; /* Ancho fijo del recuadro */
+            color: white; /* Color del texto en el recuadro */
+
+        }
+       .albums {
+            display: flex;
+            gap: 3px; /* Más espacio entre cada álbum */
+
+        }
+
+        .album {
+            text-align: left;
+            width: 180px;
+        }
+
+        .album-mmm{
+            position: relative;
+            border-radius: 5px;
+            overflow: hidden;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            padding: 10px;
+    left: 40px;  /* Mueve a la izquierda */
+    top: -10px;  
+        }
+
+        .album-mmm:hover {
+            background-color: #333; /* Recuadro oscuro que abarca imagen y texto */
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* Sombra */
+        }
+
+        .album-mmm img {
+            width: 100%;
+            height: auto;
+            border-radius: 7px;
+            transition: filter 0.3s ease;
+            position: relative; /* Asegura que el botón se posicione en relación a la imagen */
+        }
+
+        .album-ti {
+            margin-top: 10px;
+            font-size: 14px;
+            padding: 0 10px; /* Espacio a los lados del texto */
+            position: relative;
+            z-index: 2;
+        }
+
+        .play-button {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            background-color: #1DB954;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            cursor: pointer;
+            z-index: 3; /* Asegura que el botón se mantenga encima del recuadro oscuro */
+top: 140px;
+left: 140px; 
+        }
+
+        .play-button img {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Recuadro oscuro en imagen y texto */
+        .album-mmm::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        .album-mmm:hover::before {
+            opacity: 1;
+        }
+
+        .album-mmm:hover img {
+            filter: brightness(50%); /* Efecto en la imagen */
+        }
+
+        .album-mmm:hover .play-button {
+            opacity: 1;
+ 
+    }   
+.titless {
+    font-size: 28px;
+    color: #ffffff;
+    background: #fff;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    margin-left: -470px;  /* Mueve a la izquierda */
+    margin-top: 80px; 
+}
+.title {
+    font-size: 28px;
+    color: #ffffff;
+    background: #fff;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    margin-left: -445px;  /* Mueve a la izquierda */
+    margin-top: 25px; 
+
+}
+.titlel {
+    font-size: 28px;
+    color: #ffffff;
+    background: #fff;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    margin-left: -480px;  /* Mueve a la izquierda */
+    margin-top: 25px; 
+
+}
+.titlen {
+    font-size: 28px;
+    color: #ffffff;
+    background: #fff;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    margin-left: -610px;  /* Mueve a la izquierda */
+    margin-top: 25px; 
+
+}
+.titlem {
+    font-size: 28px;
+    color: #ffffff;
+    background: #fff;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    margin-left: -550px;  /* Mueve a la izquierda */
+    margin-top: 25px; 
+
+}
+.titlex {
+    font-size: 28px;
+    color: #ffffff;
+    background: #fff;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    margin-left: -790px;  /* Mueve a la izquierda */
+    margin-top: 25px; 
+
+}
+.titleh {
+    font-size: 28px;
+    color: #ffffff;
+    background: #fff;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    margin-left: -710px;  /* Mueve a la izquierda */
+    margin-top: 25px; 
+
+}
+.titles {
+    font-size: 28px;
+    color: #ffffff;
+    background: #fff;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    margin-left: -730px;  /* Mueve a la izquierda */
+    margin-top: 25px; 
+
+}
+
+        .music-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .music-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #2a3d31;
+            border-radius: 10px;
+            padding: 10px;
+            width: 200px;
+            color: white;
+            font-size: 14px;
+            position: relative;
+            transition: background-color 0.3s ease;
+    left: 47px;  /* Mueve a la izquierda */
+    top: 70px;  
+        }
+
+        .music-box img {
+            width: 40px;
+            height: 40px;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .music-box .text {
+            flex-grow: 1;
+        }
+
+        .music-box .playy-button {
+            width: 25px;
+            height: 25px;
+            background-color: #1db954;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            right: 10px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .music-box .playy-button::before {
+            content: '';
+            border-style: solid;
+            border-width: 6px 0 6px 10px;
+            border-color: transparent transparent transparent white;
+        }
+
+        .music-box:hover .playy-button {
+            opacity: 1;
+        }
+
+        .container-ss {
+            display: flex; /* Flexbox para alinear los recuadros en fila */
+            gap: 30px; /* Espacio entre recuadros */
+margin-top: 40px;
+margin-left: 90px;
+
+        }
+
+        .artistt-boxx {
+            background: #282828; /* Color fijo del recuadro */
+            padding: 10px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+            cursor: pointer;
+            text-align: center; /* Centrar el texto */
+            width: 100px; /* Ancho fijo del recuadro */
+            color: white; /* Color del texto en el recuadro */
+
+        }
+       .albumst {
+            display: flex;
+            gap: 3px; /* Más espacio entre cada álbum */
+
+        }
+
+        .albumt {
+            text-align: left;
+            width: 180px;
+
+        }
+
+        .album-mmmt{
+            position: relative;
+            border-radius: 5px;
+            overflow: hidden;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            padding: 10px;
+    left: 35px;  /* Mueve a la izquierda */
+    top: -16px;  
+        }
+
+        .album-mmmt:hover {
+            background-color: #333; /* Recuadro oscuro que abarca imagen y texto */
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* Sombra */
+        }
+
+        .album-mmmt img {
+            width: 100%;
+            height: auto;
+            border-radius: 7px;
+            transition: filter 0.3s ease;
+            position: relative; /* Asegura que el botón se posicione en relación a la imagen */
+        }
+
+        .albumt-ti {
+            margin-top: 10px;
+            font-size: 14px;
+            padding: 0 10px; /* Espacio a los lados del texto */
+            position: relative;
+            z-index: 2;
+        }
+
+        .albumt-tig {
+            margin-top: 10px;
+            font-size: 14px;
+            padding: 0 10px; /* Espacio a los lados del texto */
+            position: relative;
+            z-index: 2;
+            color: black
+        }
+
+        .plays-button {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            background-color: #1DB954;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            cursor: pointer;
+            z-index: 3; /* Asegura que el botón se mantenga encima del recuadro oscuro */
+top: 140px;
+left: 140px; 
+        }
+
+        .plays-button img {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Recuadro oscuro en imagen y texto */
+        .album-mmmt::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        .album-mmmt:hover::before {
+            opacity: 1;
+        }
+
+        .album-mmmt:hover img {
+            filter: brightness(50%); /* Efecto en la imagen */
+        }
+
+        .album-mmmt:hover .plays-button {
+            opacity: 1;
+ 
+    }   
+        .header {
+            font-size: 24px;
+            font-weight: bold;
+            margin-left: 50px;
+        }
+
+        .recuadroos {
+            background: linear-gradient(to bottom, #e49e24, #000000); /* Gradiente similar al de la imagen */
+            color: white;
+            height: 200px;
+            width: 973px; /* Ancho del recuadro ajustable */
+            margin-left: 360px; /* Espacio a la izquierda */
+            position: relative; /* Necesario para mover el texto dentro */
+margin-left: 18px;
+top: -1931px;
+border-radius: 15px;
+        }
+
+        .tituloos {
+            font-size: 100px; /* Tamaño de la letra ajustable */
+            font-weight: bold;
+            position: absolute; /* Permite mover el texto dentro del recuadro */
+            top: 60px; /* Ajuste vertical del texto */
+            left: 20px; /* Ajuste horizontal del texto */
+ font-family: 'Arial', sans-serif;
+color: white;
+        }
+
+
+        .contenedor {
+            max-width: 1000px;
+            margin: auto; 
+ grid-template-columns: repeat(4, 1fr); /* 4 recuadros por fila */
+            gap: 20px; /* Espacio entre recuadros */
+        }
+
+        h1 {
+            margin-bottom: 20px; 
+    margin-left: -500px; 
+        }
+
+        .recuadros {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 20px;
+    width: 520px; /* Ajusta el ancho del recuadro */
+    height: 165px;
+            grid-template-columns: repeat(4, 1fr); /* 4 recuadros por fila */
+            gap: 20px; /* Espacio entre recuadros */
+ margin-left: -520px;
+margin-top: 10px;
+
+        }
+
+        .recuadro {
+            background-color: #121212;
+            position: relative;
+            border-radius: 10px;
+            padding: 20px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+
+        }
+
+        .recuadro .titulo {
+            font-size: 24px;
+            font-weight: bold;
+            z-index: 2;
+margin-top: -100px;
+position: absolute;
+
+        }
+
+        .recuadro img {
+            position: absolute;
+            right: 10px;
+            bottom: 50px;
+            width: 100px;
+            height: 100px;
+            transform: rotate(25deg)scale(1.2);
+            z-index: 1;
+    top: 60px; 
+    left: 193px; 
+        }
+
+        .podcasts {
+            background-color: #00826F;
+    width: 245px; /* Ajusta el ancho del recuadro */
+    height: 123px;
+        }
+
+        .podcasts-2 {
+            background-color: #8f50df;
+    width: 245px; /* Ajusta el ancho del recuadro */
+    height: 123px;
+        }
+
+
+
+.podcasts-4 {
+            background-color: #a1bb65;
+    width: 245px; /* Ajusta el ancho del recuadro */
+    height: 123px;
+    top: 182px; 
+    left: -307px; 
+        }
+
+        .podcasts-5 {
+            background-color: #82e0aa;
+    width: 245px; /* Ajusta el ancho del recuadro */
+    height: 123px;
+        }
+
+        .podcasts-6 {
+            background-color: #3e94a7;
+    width: 245px; /* Ajusta el ancho del recuadro */
+    height: 123px;
+        }
+
+
+</style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="upper-section">
+            <div class="search">
+      <a href="BUSQUEDA-ARTISTA.html" class="search">Inicio</a>
+            </div>
+     <a href="BUSCAR.html" class="search">Buscar</a>
+        </div>
+        
+        <div class="lower-section">
+            <div class="library">
+                <span>Tu biblioteca</span>
+                <div class="options">
+                    <button>+</button>
+                    <button>→</button>
+                </div>
+            </div>
+            <div class="tabs">
+                <div class="tab">Playlists</div>
+                <div class="tab">Artistas</div>
+                <div class="tab">Álbumes</div>
+            </div>
+            <div class="menu-title">Recientes</div>
+            <div class="menu-item">
+                <img src="https://marcelolanegra.github.io/proyecto-spotifu/images/liked-songs-640.png" alt="Tus me gusta">
+                <div>
+                    <strong>Tus me gusta</strong><br>
+                    <span>Playlist • 23 canciones</span>
+                </div>
+            </div>
+            <div class="menu-item">
+                <img src="file:///C:/Users/JULIANQUINTERO/Downloads/Dise%C3%B1o%20sin%20t%C3%ADtulo%20(8).png" alt="Tus episodios">
+                <div>
+                    <strong>Tus episodios</strong><br>
+                    <span>Episodios guardados y descargados</span>
+                </div>
+            </div>
+            <div class="menusss-a">
+                <img src="https://i.scdn.co/image/ab67616100005174e82c62cc8cf019aecfd71ee8" alt="Soft Pop Hits 2024">
+                <div>
+                    <strong>Feid</strong><br>
+                    <span>Artista</span>
+                </div>
+            </div>
+            <div class="menusss-a">
+                <img src="https://i.scdn.co/image/ab6761610000e5eb3bcef85e105dfc42399ef0ba" alt="Ed Sheeran">
+                <div>
+                    <strong>Ed Sheeran</strong><br>
+                    <span>Artista</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Contenedor principal -->
+    <div class="main-container">
+        <!-- Barra superior -->
+        <div class="charcoal-bar">
+            <!-- Flechas de navegación -->
+            <div class="black-arrows">
+                <button>&larr;</button>
+                <button>&rarr;</button>
+            </div>
+
+            <!-- Barra de búsqueda -->
+            <div class="gray-search">
+                <button>&#128269;</button>
+                <input type="text" placeholder="Buscar" value="">
+
+                <button>&times;</button>
+            </div>
+
+            <!-- Iconos de la parte superior derecha -->
+            <div class="icon-bar">
+                
+                <a href="#"><span>&#128276;</span></a> <!-- Campanita -->
+                <a href="perfil.html" class="white-profile"></a> 
+            </div>
+        </div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+  <div class="music-container">
+        <div class="music-box">
+            <img src="https://marcelolanegra.github.io/proyecto-spotifu/images/liked-songs-640.png" alt="Icono">
+            <div class="text">Ranking de Podcast</div>
+            <div class="playy-button"></div>
+        </div>
+        <div class="music-box">
+            <img src="file:///C:/Users/JULIANQUINTERO/Downloads/Dise%C3%B1o%20sin%20t%C3%ADtulo%20(8).png" alt="Album">
+            <div class="text">Nuevos Podcasts</div>
+            <div class="playy-button"></div>
+        </div>
+        <div class="music-box">
+            <img src="file:///C:/Users/JULIANQUINTERO/Downloads/Dise%C3%B1o%20sin%20t%C3%ADtulo%20(8).png" alt="Album">
+            <div class="text">Solo en Soundify</div>
+            <div class="playy-button"></div>
+        </div>
+        <div class="music-box">
+            <img src="file:///C:/Users/JULIANQUINTERO/Downloads/Dise%C3%B1o%20sin%20t%C3%ADtulo%20(8).png" alt="Album">
+            <div class="text">Videopodcasts</div>
+            <div class="playy-button"></div>
+        </div>
+    </div>
+<br>
+<br>
+<h1 class="titless">Mejores episodios de la semana</h1>
+    <div class="albums">   
+        <div class="album">
+            <div class="album-mmm">
+                <img src="https://i.scdn.co/image/ab6765630000ba8a73400c87c02f6617b10195bb" alt="La Llamada">
+                <div class="album-ti"><a href="MIXdiario.html" style="color: white; text-decoration: none;">María Luisa, La Voz que transformó la..</div>
+                <div class="album-tig"><br>‎ ‎ ‎4 sept • 32 min</div>
+                <div class="play-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+
+        <div class="album">
+            <div class="album-mmm">
+
+                <img src="https://i.scdn.co/image/ab67656300005f1f0ecbffcf3252931b6b7af9a9" alt="Vete">
+                <div class="album-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">Evitar El Malestar Es Evitar La Vida...</div>
+                <div class="album-tig"><br>‎ ‎ ‎4 sept • 49 min</div>
+                <div class="play-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="album">
+            <div class="album-mmm">
+
+                <img src="https://media.licdn.com/dms/image/v2/D4E22AQFrdQC8JO_wYA/feedshare-shrink_800/feedshare-shrink_800/0/1725339780111?e=2147483647&v=beta&t=Gzs0w2QSS5z68L7Qv8qcCPra-DO_BdC673GWTuGM9Sk" alt="Vete">
+                <div class="album-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">1.Con más GOLES que MESSI, Leo...</div>
+                <div class="album-tig"><br>‎ ‎ ‎3 sept • 53 min</div>
+                <div class="play-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="album">
+            <div class="album-mmm">
+
+                <img src="https://i.scdn.co/image/ab6765630000ba8aead56d041bca4ae4f95cc5a4" alt="Vete">
+                <div class="album-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">EP201<br>Orgullosamente...</div>
+                <div class="album-tig"><br>‎ ‎ ‎4 sept • 101 min</div>
+                <div class="play-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="album">
+            <div class="album-mmm">
+
+                <img src="https://lite-images-i.scdn.co/image/ab67656300005f1f0047d40ee61a1563316806e8" alt="De Farra Con Yeison Jiménez">
+                <div class="album-ti"><a href="https://www.ejemplo.com"  style="color: white; text-decoration: none;">Cosas que deberías entender antes de...</div>
+                <div class="album-tig"><br>‎ ‎ ‎3 sept • 17 min</div>
+                <div class="play-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+    </div>
+<h1 class="title">Podcasts que también puedes ver</h1>
+    <div class="albumst">   
+        <div class="albumt">
+            <div class="album-mmmt">
+                <img src="https://i.scdn.co/image/ab6765630000ba8a903665eec7b448f9ab445509" alt="La Llamada">
+                <div class="albumt-ti"><a href="MIXdiario.html" style="color: white; text-decoration: none;">MELO CONVERSACIONES..<br>Somos Melo</div>
+                        <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://i.scdn.co/image/ab6765630000ba8ad204a02c5086ea8b60a0bc0a" alt="Vete">
+                <div class="albumt-ti"><a href="PODCAST-fariddieck.html" style="color: white; text-decoration: none;">Relatos y Reflexiones<br>Farid Dieck</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://i.scdn.co/image/ab6765630000ba8ad9c8da74a0cce53f186d3f70" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">Charlaito Podcast By El Mindo<br></div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://i.scdn.co/image/ab6765630000ba8a1f6fddcfa5767d816721ffa5" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">Meterse al Rancho<br>Spotify Studios</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKhbULOvpVvVEYQoNIZpuZzIr2Yvg09v30Og&s" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">VOS PODES<br>Tatiana Franko</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+</div>
+<h1 class="titlel">Series que harán tu mente volar</h1>
+    <div class="albumst">   
+        <div class="albumt">
+            <div class="album-mmmt">
+                <img src="https://i.scdn.co/image/ab6765630000ba8ad99e8940a3b03fc3ef28e73a" alt="La Llamada">
+                <div class="albumt-ti"><a href="MIXdiario.html" style="color: white; text-decoration: none;">Batman Desenterrado<br>Warner Bros. / Soundify</div>
+                        <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://i.scdn.co/image/ab6765630000ba8a1a117ea2359a2e97265a228f" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">Quemar tu Casa<br>Spotify Studios</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://i.scdn.co/image/ab6765630000ba8ab33bc94cb5dd5e391f6a373c" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">Caso 63: Enigma<br>Spotify Studios</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://i.scdn.co/image/ab6765630000ba8abd90c85a512eb6fd45ee008b" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">Creepyhunters: El Misterio del Cenote<br>Spotify Studios</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://lite-images-i.scdn.co/image/ab67656300005f1fe8b2c9559ef88dbabdc98193" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">Sonia<br>Spotify Studios</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+</div>
+<h1 class="titlen">El mundo y la politica</h1>
+    <div class="albumst">   
+        <div class="albumt">
+            <div class="album-mmmt">
+                <img src="https://i.scdn.co/image/2ce090482b83d0e8fa282a07c9410be57ba10d58" alt="La Llamada">
+                <div class="albumt-ti"><a href="MIXdiario.html" style="color: white; text-decoration: none;">Con Ella Sí<br>CITRINO TEATRO</div>
+                        <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://i.scdn.co/image/0dfd638e2237f1bf54d507ac6147d7a43393c89b" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">Yo Confieso<br>El Espectador</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://i.scdn.co/image/ab6765630000ba8ae94ea1606688323d28161edf" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">La Candidata<br>El Espectador</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://i.scdn.co/image/ab6765630000ba8a0309b1d358d185456124a085" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">Dr. Muerte<br>Wondery</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://i.scdn.co/image/ab6765630000ba8afeb060c4aeafd0c195a453a2" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">Guerra 3<br>Podium Podcast</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+</div>
+<h1 class="titlem">Podcasts para despejarse</h1>
+    <div class="albumst">   
+        <div class="albumt">
+            <div class="album-mmmt">
+                <img src="https://i.scdn.co/image/ab67656300005f1f2e2c2c6f0d92b6b9286fa1c3" alt="La Llamada">
+                <div class="albumt-ti"><a href="MIXdiario.html" style="color: white; text-decoration: none;">Biotopía<br>Podium Podcast</div>
+                        <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://i.scdn.co/image/ab6765630000ba8aad20c9022e161166cd03c0f8" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">Pensamientos al desnudo<br>Nicolebta</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://i.scdn.co/image/ab6765630000ba8afaecce1cbaa9d039fa5b2e0c" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">La Cordada<br>La Cordada.</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://i.scdn.co/image/ab6765630000ba8abc3941aa187fc0a216297643" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">Dos Cabras Locas<br>Raquel y Malle</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="albumt">
+            <div class="album-mmmt">
+
+                <img src="https://i.scdn.co/image/ab67656300005f1f53d7a03a4a321088e471343c" alt="Vete">
+                <div class="albumt-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">Hello Hello<br>Londo</div>
+                <div class="plays-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+</div>
+
+    <div class="recuadroos">
+        <div class="tituloos">
+            Podcasts
+        </div>
+    </div>
+<br>
+<br>
+<br>
+
+
+
+</body>
+</html>
